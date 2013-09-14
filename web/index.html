@@ -13,7 +13,30 @@
                     <div class="app-title">Login</div>
                </div>
                <div class="app-content">
-                  Content
+                  <div class="app-button" data-target="page-pet-creation">Create a pet!</div>
+               </div>
+          </div>
+
+          <div class="app-page" data-page="page-pet-creation">
+               <div class="app-topbar">
+                    <div class="app-title">Pet Creation</div>
+               </div>
+               <div class="app-content">
+                    <div class="app-section">
+                         <form class="pet-information">
+                              <div class="field-pet-name">Pet name:
+                                   <input type="text" name="pet-name" placeholder="Enter a name"></input>
+                              </div>
+                              <div class="field-pet-gender">Gender: 
+                                   <input type="radio" name="pet-gender" value="male">Male
+                                   <input type="radio" name="pet-gender" value="female">Female
+                              </div>
+                         </form>
+                    </div>
+
+                    <div class="app-section">
+                         <div class="app-button" id="create-pet">Create pet!</div>
+                    </div>
                </div>
           </div>
 
@@ -21,6 +44,7 @@
           <script src="js/libs/toast.js?inline=1"></script>
 
           <script src="js/page-login.js?inline=1"></script>
+          <script src="js/page-pet-creation.js?inline=1"></script>
           <script>
                App.load('page-login');
           </script>
