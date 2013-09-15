@@ -28,6 +28,24 @@ function Pet (petName, petType, petGender, petId) {
 	else petState = this.getPetStateFromDatabase();
 }
 
+Pet.prototype.eat = function (food) {
+	var timeStamp = new Date().getTime();
+
+	var hunger = this.petState.hunger;
+}
+
+Pet.prototype.play = function (activity) {
+	var timeStamp = new Date().getTime();
+
+	var entertainment = this.petState.entertainment;
+}
+
+Pet.prototype.sleep = function () {
+	var timeStamp = new Date().getTime();
+
+	var energy = this.petState.energy;
+}
+
 Pet.prototype.saveToDatabase = function () {
 	return false;
 }
