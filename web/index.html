@@ -5,6 +5,7 @@
           <meta name="description" content="TBD">
           
           <link rel="stylesheet" href="css/default.css?inline=1">
+          <link rel="stylesheet" href="css/page-game.css?inline=1">
      </head>
 
      <body>
@@ -17,7 +18,7 @@
                </div>
           </div>
 
-          <div class="app-page" data-page="page-pet-creation">
+          <div class="app-page" data-page="page-pet-creation" data-back="true">
                <div class="app-topbar">
                     <div class="app-title">Pet Creation</div>
                </div>
@@ -35,7 +36,26 @@
                     </div>
 
                     <div class="app-section">
-                         <div class="app-button" id="create-pet">Create pet!</div>
+                         <div class="app-button" id="create-pet" data-target="page-game">Create pet!</div>
+                    </div>
+               </div>
+          </div>
+
+          <div class="app-page" data-page="page-game" data-no-scroll="true">
+               <div class="app-topbar">
+                    <div class="app-title"></div>
+               </div>
+               <div class="action-bar">
+                    <ul class="action-bar-list">
+                         <li class="actions" id="feed-pet">Feed</li>
+                         <li class="actions" id="talk-to-pet">Talk to</li>
+                         <li class="actions" id="play-with-pet">Play</li>
+                         <li class="actions" id="train-pet">Train</li>
+                    </ul>
+               </div>
+               <div class="app-content">
+                    <div class="app-section">
+                         <canvas id="main-canvas"></canvas>
                     </div>
                </div>
           </div>
@@ -46,7 +66,7 @@
           <script src="js/page-login.js?inline=1"></script>
           <script src="js/page-pet-creation.js?inline=1"></script>
           <script>
-               App.load('page-login');
+               App.load('page-game');
           </script>
 </body>
 </html>
