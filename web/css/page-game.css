@@ -19,6 +19,11 @@
      position: relative;
 }
 
-.app-content .app-section #main-canvas {
+.app-content #canvas-section {
+     height: 85%;
+}
 
+.app-content .app-section #main-canvas {
+     width: 100%;
+     height: 100%;
 }
