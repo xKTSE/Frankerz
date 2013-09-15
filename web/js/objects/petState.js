@@ -20,16 +20,15 @@ function PetState (lifeCycle, hunger, entertainment, energy) {
 		this.entertainment = new Entertained (50, this.timeStamp);
 		this.energy = new Energy (100, this.timeStamp);
 	} else if (arguments.length === 4) {
-		if (this.validateArguments) {
-			this.lifeCycle = lifeCycle;
-			this.hunger = hunger;
-			this.entertainment = entertainment;
-			this.energy = energy;			
-		} else {
-			displayErrorPage();
+		this.lifeCycle = lifeCycle;
+		this.hunger = hunger;
+		this.entertainment = entertainment;
+		this.energy = energy;
+		if (!this.validateArguments()) {
+			displayErrorPage('Validation for the arguments of the Pet State object failed');
 		}
 	} else {
-		displayErrorPage();
+		displayErrorPage('Validation for the arguments of the Pet State object failed');
 	}
 }
 
@@ -42,11 +41,10 @@ PetState.prototype.validateArguments = function () {
 }
 
 function LifeCycle (lifeCycleValue, lastEvolved) {
-	if (this.validateArguments) {
-		this.lifeCycleValue = lifeCycleValue;
-		this.lastEvolved = lastEvolved;		
-	} else {
-		displayErrorPage();
+	this.lifeCycleValue = lifeCycleValue;
+	this.lastEvolved = lastEvolved;	
+	if (!this.validateArguments()) {	
+		displayErrorPage('Validation for the arguments of the LifeCycle object failed');
 	}
 }
 
@@ -55,11 +53,10 @@ LifeCycle.prototype.validateArguments = function () {
 }
 
 function Hunger (hungerValue, lastAte) {
-	if (this.validateArguments) {
-		this.hungerValue = hungerValue;
-		this.lastAte = lastAte;
-	} else {
-		displayErrorPage();
+	this.hungerValue = hungerValue;
+	this.lastAte = lastAte;	
+	if (!this.validateArguments()) {	
+		displayErrorPage('Validation for the arguments of the Hunger object failed');
 	}
 }
 
@@ -68,11 +65,10 @@ Hunger.prototype.validateArguments = function () {
 }
 
 function Entertained (entertainmentValue, lastPlayed) {
-	if (this.validateArguments) {
-		this.entertainmentValue = entertainmentValue;
-		this.lastPlayed = lastPlayed;
-	} else {
-		displayErrorPage();
+	this.entertainmentValue = entertainmentValue;
+	this.lastPlayed = lastPlayed;	
+	if (!this.validateArguments()) {	
+		displayErrorPage('Validation for the arguments of the Entertained object failed');
 	}
 }
 
@@ -80,12 +76,11 @@ Entertained.prototype.validateArguments = function () {
 	return false;
 }
 
-function Energy (energyValue, lastPlayed) {
-	if (this.validateArguments) {
-		this.energyValue = energyValue;
-		this.lastPlayed = lastPlayed;
-	} else {
-		displayErrorPage();
+function Energy (energyValue, lastSlept) {
+	this.energyValue = energyValue;
+	this.lastSlept = lastSlept;	
+	if (!this.validateArguments()) {	
+		displayErrorPage('Validation for the arguments of the Energy object failed');
 	}
 }
 

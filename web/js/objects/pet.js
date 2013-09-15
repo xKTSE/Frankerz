@@ -16,12 +16,12 @@ function Pet (petId, petName, petType, petGender) {
 	this.petGender = null;
 	this.petState = null;
 
-	if (this.validateArguments) {
-		this.petName = petName;
-		this.petType = petType;
-		this.petGender = petGender;		
-	} else {
-		displayErrorPage();
+	this.petName = petName;
+	this.petType = petType;
+	this.petGender = petGender;		
+
+	if (!this.validateArguments()) {
+		displayErrorPage('Validation for the arguments of the Pet object failed');
 	}
 
 	if (typeof petId == 'undefined') petState = new PetState();
