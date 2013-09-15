@@ -37,5 +37,15 @@ Pet.prototype.getPetStateFromDatabase = function () {
 }
 
 Pet.prototype.validateArguments = function () {
+	if (typeof this.petName == 'string'
+		&& typeof this.petType == 'number'
+		&& typeof this.petGender == 'number') {
+
+		if (this.petType == typeEnum.TEST || this.petType == typeEnum.TEST2) {
+			if (this.petGender == genderEnum.MALE || this.petGender == genderEnum.FEMALE) {
+				return true;				
+			}
+		}
+	}
 	return false;
 }
