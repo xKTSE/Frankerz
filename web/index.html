@@ -63,11 +63,17 @@
           <script src="js/libs/app.js?inline=1"></script>
           <script src="js/libs/toast.js?inline=1"></script>
 
+          <script src="js/objects/pet.js?inline=1"></script>
+          <script src="js/objects/petState.js?inline=1"></script>
           <script src="js/page-login.js?inline=1"></script>
+
+          <script src="js/frankerzUtilities.js?inline=1"></script>
           <script src="js/page-pet-creation.js?inline=1"></script>
           <script src="js/page-game.js?inline=1"></script>
           <script>
                App.load('page-login');
+
+               var pet = new Pet('joe', typeEnum.TEST, genderEnum.MALE);
           </script>
 </body>
 </html>

@@ -8,7 +8,7 @@ var genderEnum = {
 	FEMALE : 1
 }
 
-function Pet (petId, petName, petType, petGender) {
+function Pet (petName, petType, petGender, petId) {
 
 	this.petId = null;
 	this.petName = null;
