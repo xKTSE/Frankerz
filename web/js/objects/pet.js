@@ -18,6 +18,13 @@ var activityEnum = {
 	TEST2 : 5
 }
 
+var lifeCycleEnum = {
+	BABY : 0,
+	CHILD : 1,
+	TEEN : 2,
+	ADULT : 3
+}
+
 function Pet () { /* petName, petType, petGender | petId */
 
 	this.petId = null;
@@ -32,7 +39,7 @@ function Pet () { /* petName, petType, petGender | petId */
 		this.petGender = arguments[2];
 
 		if (!this.validateArguments()) {
-			displayErrorPage('Validation for the arguments of the Pet object failed');
+			displayErrorToast('Validation for the arguments of the Pet object failed');
 		}
 
 		this.petState = new PetState();
@@ -43,7 +50,7 @@ function Pet () { /* petName, petType, petGender | petId */
 		this.petGender = this.DB_getPetGender();
 		this.petState = this.DB_getPetState();
 	} else {
-		displayErrorPage('Wrong number of arguments for the pet object');
+		displayErrorToast('Wrong number of arguments for the pet object');
 	}
 
 	this.petConfig = this.DB_getPetConfig();
@@ -91,6 +98,10 @@ Pet.prototype.eat = function (foodEnum) {
 	var hunger = new Hunger (foodEnum, timeStamp);
 
 	this.petState.hunger = hunger;
+}
+
+Pet.prototype.calculateHappiness = function () {
+	return 0;
 }
 
 Pet.prototype.DB_save = function () {
