@@ -6,6 +6,7 @@ var lifeCycleEnum = {
 }
 
 function PetState (lifeCycle, hunger, entertainment, energy) {
+	this.config = null;
 	this.lifeCycle = null;
 	this.hunger = null;
 	this.entertainment = null;
