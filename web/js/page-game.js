@@ -44,6 +44,28 @@ App.populator('page-game', function(page){
 				pet.bind('EnterFrame', function(){
 					pet.calculatePetState();
 				});
+
+				pet.onMouseDown = function(e) {
+					var context = this;
+					// TODO: Optimize this
+					
+					// Move to right
+					context.x += 3;
+
+					context.timeout(function(){
+						// After 100ms, move to the left
+						context.x -= 6;
+
+						context.timeout(function(){
+
+							// After 100ms, move back to inital X pos
+							context.x += 3;
+						}, 100);
+
+					}, 100);
+				}
+
+				Crafty.addEvent(pet, Crafty.stage.elem, "mousedown", pet.onMouseDown);
 			}
 		};
 
