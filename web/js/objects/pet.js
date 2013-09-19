@@ -104,6 +104,14 @@ Pet.prototype.calculateHappiness = function () {
 	return 0;
 }
 
+Pet.prototype.alertHunger = function () {
+	return 0;
+}
+
+Pet.prototype.alertPlay = function () {
+	
+}
+
 Pet.prototype.DB_save = function () {
 	return false;
 }
