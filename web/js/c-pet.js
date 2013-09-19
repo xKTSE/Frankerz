@@ -31,17 +31,26 @@ Crafty.c("Pet", {
 					this.pet.eat();
 					this.updateState('happy');
 				}
+				else {
+					this.showIsAsleepToast();
+				}
 				break;
 			case 'TALK_TO' :
 				if (!this.pet.petState.isAsleep()) {
 					this.pet.play();
 					this.updateState('happy');
 				}
+				else {
+					this.showIsAsleepToast();
+				}
 				break;
 			case 'PLAY':
 				if (!this.pet.petState.isAsleep()) {
 					this.pet.play();
 					this.updateState('happy');
+				}
+				else {
+					this.showIsAsleepToast();
 				}
 				break;
 			case 'SLEEP':
@@ -75,5 +84,8 @@ Crafty.c("Pet", {
 		// for each event occuring : call this.onEvent(event)
 
 		// note: must create a queue of petStates
+	},
+	showIsAsleepToast: function (){
+		new Toast({text: 'Shhhh... ' + this.pet.petName + ' is asleep!'});
 	}
 });
