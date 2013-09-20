@@ -101,7 +101,15 @@ Pet.prototype.eat = function (foodEnum) {
 }
 
 Pet.prototype.calculateHappiness = function () {
-	return 0;
+	return 100;
+}
+
+Pet.prototype.calculateHunger = function () {
+	return 100;
+}
+
+Pet.prototype.calculateEnergy = function () {
+	return 100;
 }
 
 Pet.prototype.alertHunger = function () {

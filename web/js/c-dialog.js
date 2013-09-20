@@ -4,8 +4,8 @@ Crafty.c("Pet-Dialog", {
 		this.requires('2D, DOM, Image');
 	},
 	show: function(event, petX, petY) {
-		
-		this.image('../img/dialog_box.png');
+
+		this.image('../img/dialog/dialog_box_' + event + '.png');
 		this.attr({
 			x: petX + (petX/2.3),
 			y: petY - (petY/1.6)

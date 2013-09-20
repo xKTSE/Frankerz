@@ -87,7 +87,6 @@ App.populator('page-game', function(page){
 			if (!GAME_IN_PROFRESS) {
 				return;
 			}
-
 			// TODO:
 		});
 
