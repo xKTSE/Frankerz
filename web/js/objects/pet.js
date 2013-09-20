@@ -25,45 +25,57 @@ var lifeCycleEnum = {
 	ADULT : 3
 }
 
-function Pet () { /* petName, petType, petGender | petId */
+function Pet (petId, petName, petType, petGender, userId, petState) {
 
 	this.petId = null;
 	this.petName = null;
 	this.petType = null;
 	this.petGender = null;
 	this.petState = null;
+	this.userId = null;
+	this.petConfig = null;
 
-	if (arguments.length == 3) {
-		this.petName = arguments[0];
-		this.petType = arguments[1];
-		this.petGender = arguments[2];
+	this.petId = petId;
+	this.petName = petName;
+	this.petType = petType;
+	this.petGender = petGender;
+	this.petState = petState;
+	this.userId = userId;
 
-		if (!this.validateArguments()) {
-			displayErrorToast('Validation for the arguments of the Pet object failed');
-		}
-
-		this.petState = new PetState();
-	} else if (arguments.length == 1) {
-		this.petId = arguments[0];
-		this.petName = this.DB_getPetName();
-		this.petType = this.DB_getPetType();
-		this.petGender = this.DB_getPetGender();
-		this.petState = this.DB_getPetState();
-	} else {
-		displayErrorToast('Wrong number of arguments for the pet object');
+	if (!this.validateArguments()) {
+		displayErrorToast('Validation for the arguments of the Pet object failed');
 	}
+
+	if (this.petId == null) {
+		this.petState = new PetState();
+	}
+
+	// this.DB_save();
 
 	this.petConfig = this.DB_getPetConfig();
 }
 
 Pet.prototype.validateArguments = function () {
+	if (!(this.petId == null || (typeof this.petId == 'number' && isInt(this.petId) && this.petId >= 1))) {
+		return false;
+	}
+
+	if (typeof this.petId == 'number' && isInt(this.petId) && this.petId >= 1) {
+		if (!(this.petState instanceof PetState)) {
+			return false;
+		}
+	}
+
 	if (typeof this.petName == 'string'
 		&& typeof this.petType == 'number'
-		&& typeof this.petGender == 'number') {
+		&& typeof this.petGender == 'number'
+		&& typeof this.userId == 'number') {
 
 		if (this.petType == typeEnum.TEST1 || this.petType == typeEnum.TEST2) {
 			if (this.petGender == genderEnum.MALE || this.petGender == genderEnum.FEMALE) {
-				return true;				
+				if (isInt(this.userId) && this.userId >= 1) {
+					return true;
+				}
 			}
 		}
 	}
@@ -109,10 +121,15 @@ Pet.prototype.alertHunger = function () {
 }
 
 Pet.prototype.alertPlay = function () {
-	
+	return 0;
 }
 
 Pet.prototype.DB_save = function () {
+	if (this.petId == null) {
+		DB_addPet(this);
+	} else {
+		DB_updatePet(this);
+	}
 	return false;
 }
 
@@ -121,17 +138,5 @@ Pet.prototype.DB_getPetState = function () {
 }
 
 Pet.prototype.DB_getPetConfig = function () {
-	return false;
-}
-
-Pet.prototype.DB_getPetName = function () {
-	return false;
-}
-
-Pet.prototype.DB_getPetType = function () {
-	return false;
-}
-
-Pet.prototype.DB_getPetGender = function () {
 	return false;
 }

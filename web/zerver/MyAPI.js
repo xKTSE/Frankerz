@@ -3,6 +3,8 @@ exports.login = function (username, password, callback) {
 
 	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
 
+	console.log('test');
+
 	pg.connect(connectionString, function(err, client, done) {
 
 		if (err) {
@@ -15,7 +17,7 @@ exports.login = function (username, password, callback) {
 		    	done();
 
 			    if(err) {
-			      console.log('EXPORTS.LOGIN::Running Query');
+			      console.error('EXPORTS.LOGIN::Running Query', err);
 
 			      callback(false, 'Error in database');
 			    } else {
@@ -41,7 +43,7 @@ exports.login = function (username, password, callback) {
 				var password = document.frankerz_loginForm.password.value;
 
 				if (username) {
-					MyAPI.login('kappa', 'password', function (success, errorStr) {
+					MyAPI.login(username, password, function (success, errorStr) {
 						if (success) {
 							alert('success!');
 						} else {
@@ -64,3 +66,126 @@ exports.login = function (username, password, callback) {
 		<input type="submit" value="Submit" name="loginButton">
 	</form>
 */
+
+exports.getPetListOfUser = function (ownerId, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.GETPETLISTOFUSER::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM pets WHERE ownerid = $1', [ownerId], function(err, result) {
+
+				done();
+
+				if (err) {
+
+					console.error('EXPORTS.GETPETLISTOFUSER::Running Query', err);
+
+					callback(false, 'Error in database');
+
+				} else {
+
+					callback(true, 'Successfully retrieved all pets belonging to user', result.rows);
+
+				}
+
+			});
+		}
+	});
+}
+
+exports.addPet = function (pet, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	var petState = pet.petState;
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.ADDPET::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('INSERT INTO pets (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id', 
+				[pet.petName, pet.petType, pet.petGender, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
+			    //call `done()` to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.ADDPET::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully added pet to database', result.rows[0].id);
+			    }
+			});
+		}
+	});
+}
+
+exports.updatePet = function (pet, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	var petState = pet.petState;
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.UPDATEPET::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('UPDATE pets SET (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) = ($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) WHERE id = $1', 
+				[pet.petId, pet.petName, pet.petType, pet.petGender, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
+			    //call `done()` to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.UPDATEPET::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully updated pet in database')
+			    }
+			});
+		}
+	});	
+}
+
+exports.deletePet = function (petId, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.DELETEPET::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('DELETE FROM pets WHERE id = $1', [petId], function(err, result) {
+			    //call `done()` to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.DELETEPET::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully deleted pet from database')
+			    }
+			});
+		}
+	});	
+}
