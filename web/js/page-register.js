@@ -39,5 +39,5 @@ App.populator('page-register', function(page){
 });
 
 function displayError (error) {
-	errorDiv.innerHTML = error;
+	new Toast({text: error});
 }
