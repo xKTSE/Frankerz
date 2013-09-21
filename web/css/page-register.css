@@ -1,0 +1,14 @@
+form {
+	margin-top: 30px;
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-bottom: 20px;
+	padding: 10px;
+	background-color: #7DAD00;
+	color: #E5FFA1;
+	border-radius: 3px;
+}
+
+#frankerz_registerButton {
+	border-color: #7DAD00;
+}

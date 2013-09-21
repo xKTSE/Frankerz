@@ -6,22 +6,28 @@
           <meta name="description" content="TBD">
           
           <link rel="stylesheet" href="css/default.css?inline=1">
-          <link rel="stylesheet" href="css/page-game.css?inline=1">
           <link rel="stylesheet" href="css/frankerz.css?inline=1">
+          <link rel="stylesheet" href="css/page-login.css?inline=1">
+          <link rel="stylesheet" href="css/page-register.css?inline=1">
+          <link rel="stylesheet" href="css/page-game.css?inline=1">
      </head>
 
      <body>
-          <div class="app-page" data-page="page-login">
-               <div class="app-topbar">
-                    <div class="app-title">Login</div>
+          <div class="app-page" data-page="page-login" >
+               <div class="app-content" id="login-page">
+               <div class="logo-container">
+                    <div class="big-logo"></div>
+                    <div class="sub-description">The mobile web pet game</div>
                </div>
-               <div class="app-content">
-                    <form name="frankerz_loginForm">
-                         Username: <input type="text" name="username"><br>
-                         Password: <input type="password" name="password">
+                    <form id="info-form" name="frankerz_loginForm">
+                         <br>Username:</br>
+                         <input type="text" name="username"><br>
+                         <br>Password:</br>
+                         <input type="password" name="password">
                          <div class="app-button" id="frankerz_loginButton">Login</div>
                     </form>
                     <div id="errorDiv"></div>
+                    <div class="sub-header">Don't have an account?</div>
                     <div class="app-button" data-target="page-register">Register</div>
                </div>
           </div>
@@ -35,6 +41,7 @@
                          Username: <input type="text" name="username"><br>
                          Password: <input type="password" name="password">
                          <div class="app-button" id="frankerz_registerButton">Register</div>
+                         <div class="app-button" data-back="true">Back</div>
                     </form>
                     <div id="errorDiv"></div>
                </div>
@@ -78,10 +85,9 @@
                </div>
                <div class="action-bar">
                     <ul class="action-bar-list">
-                         <li class="actions" id="feed-pet">Feed</li>
-                         <li class="actions" id="talk-to-pet">Talk to</li>
-                         <li class="actions" id="play-with-pet">Play</li>
-                         <li class="actions" id="train-pet">Train</li>
+                         <li class="actions" id="feed-pet"></li>
+                          <li class="actions" id="play-with-pet"></li>
+                         <li class="actions" id="talk-to-pet"></li>
                     </ul>
                </div>
                <div class="app-content">
@@ -112,7 +118,7 @@
           <script src="js/c-pet.js"></script>
           <script src="js/c-dialog.js"></script>
           <script>
-               App.load('page-login');
+               App.load('page-game');
           </script>
 </body>
 </html>

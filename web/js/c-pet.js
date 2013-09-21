@@ -42,6 +42,7 @@ Crafty.c("Pet", {
 						nutritionValue: 1
 					});
 					this.updateState('happy');
+					new Toast({text: 'yummy'});
 				}
 				else {
 					this.showIsAsleepToast();
@@ -55,6 +56,7 @@ Crafty.c("Pet", {
 						energyValue: 0
 					});
 					this.updateState('happy');
+					new Toast({text: 'Hi!'});
 				}
 				else {
 					this.showIsAsleepToast();
@@ -68,6 +70,7 @@ Crafty.c("Pet", {
 						energyValue: 2
 					});
 					this.updateState('happy');
+					new Toast({text: 'that was fun!'});
 				}
 				else {
 					this.showIsAsleepToast();

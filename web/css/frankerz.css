@@ -1,3 +1,14 @@
+.app-topbar {
+	background-color: #9BD600;
+	color: #425C00;
+}
+
+.app-android .app-topbar {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+
 #blocker {
 	position:absolute;
 	height: 100%;

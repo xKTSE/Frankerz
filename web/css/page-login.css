@@ -1,0 +1,49 @@
+#login-page {
+	background-color: #eeffb5;
+}
+
+.logo-container .big-logo {
+	background-image: url(../img/logo.png);
+	background-repeat: no-repeat;
+	height: 100px;
+	background-position: center;
+
+	margin-top: 50px;
+}
+
+.sub-description {
+	text-align: right;
+	margin-bottom: 20px;
+	margin-right: 20px;
+	font-size: 14px;
+}
+
+#info-form {
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-bottom: 20px;
+	padding: 0 10px 10px 10px;
+	background-color: #7DAD00;
+	color: #E5FFA1;
+	border-radius: 3px;
+}
+
+
+.app-content .app-button {
+	height: 48px;
+	line-height: 48px;
+	color: #425C00;
+	margin: 10px;
+	background-color: #9BD600;
+	border-radius: 3px;
+	border-color: none;
+}
+
+.app-content .app-button.active {
+	color: #425C00;
+	background-color: #49ac00;
+}
+
+.sub-header {
+	margin-left: 10px;
+}

@@ -23,7 +23,7 @@ function displayErrorToast (msg) {
 
 	var toast = new Toast(options);
 
-	throw new Error('Stop execution');
+	//throw new Error('Stop execution');
 }
 
 function isInt(n) {

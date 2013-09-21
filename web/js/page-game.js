@@ -8,6 +8,7 @@ App.populator('page-game', function(page){
 
 	p.on('appShow', function () {
     	
+    	console.log(canvasSection.height());
     	// To remove upon getting User Pet Data implementation
     	var dummy = {
     		name: 'Dongers',
@@ -23,6 +24,9 @@ App.populator('page-game', function(page){
 			GAME_BACKGROUND_COLOUR	: '#222'
 		};
 
+		console.log(CONST.GAME_WIDTH);
+		console.log(CONST.GAME_HEIGHT);
+
 		Game = {
 			start: function(){
 				GAME_IN_PROFRESS = true;
@@ -35,12 +39,15 @@ App.populator('page-game', function(page){
 				Crafty.background(CONST.GAME_BACKGROUND_COLOUR);
 
 				// Draw a blob image at the center of the stage
+
 				pet = Crafty.e("Pet")
 						.attr({
 							x: (CONST.GAME_WIDTH/2) - 32,
 							y: (CONST.GAME_HEIGHT/2) - 32
 						});
-				pet.setData(new Pet(dummy.name, dummy.type, dummy.gender));
+				pet.setData(new Pet(null, dummy.name, dummy.type, dummy.gender, "TEST", null));
+
+				console.log(pet);
 				pet.bind('EnterFrame', function(){
 					pet.calculatePetState();
 				});
