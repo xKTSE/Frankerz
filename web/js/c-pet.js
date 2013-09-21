@@ -3,7 +3,7 @@ Crafty.c("Pet", {
 	pet: undefined,
 	_Const: {
 		ENERGY_THRESHOLD: 20,
-		HUNGER_THRESHOLD: 50,
+		HUNGER_THRESHOLD: 55,
 		HAPPINESS_THRESHOLD: 30
 	},
 	_originalState: 'normal',
@@ -37,7 +37,10 @@ Crafty.c("Pet", {
 		switch (event) {
 			case 'FEED' :
 				if (!this.pet.petState.isAsleep()) {
-					this.pet.eat();
+					this.pet.eat({
+						type: 'apple',
+						nutritionValue: 1
+					});
 					this.updateState('happy');
 				}
 				else {
@@ -46,7 +49,11 @@ Crafty.c("Pet", {
 				break;
 			case 'TALK_TO' :
 				if (!this.pet.petState.isAsleep()) {
-					this.pet.play();
+					this.pet.play({
+						activityName: 'talk_to_the_pet',
+						entertainmentValue: 1,
+						energyValue: 0
+					});
 					this.updateState('happy');
 				}
 				else {
@@ -55,7 +62,11 @@ Crafty.c("Pet", {
 				break;
 			case 'PLAY':
 				if (!this.pet.petState.isAsleep()) {
-					this.pet.play();
+					this.pet.play({
+						activityName: 'baseball',
+						entertainmentValue: 2,
+						energyValue: 2
+					});
 					this.updateState('happy');
 				}
 				else {
@@ -93,6 +104,11 @@ Crafty.c("Pet", {
 				break;
 		}
 	},
+	_eventOccurence: {
+		IS_TIRED : false,
+		IS_HUNGRY : false,
+		IS_BORED : false
+	},
 	calculatePetState: function(){
 
 		var eventQueue = [];
@@ -103,16 +119,39 @@ Crafty.c("Pet", {
 
 		/*
 			Queue events when the stat level is divisible by 10
-			so that dialogs are not constantly appearing on stage refresh
+			so that dialogs are not constantly appearing (and overlapping each other) on stage refresh
+
+			Also, to avoid the fact that the state level may stay at a multiple of n
+			for a long time, there is a check to see if the event already occured
+			within the last 5 seconds
+				
 		*/
-		if ((energyLevel % 10 === 0) && (energyLevel < this._Const.ENERGY_THRESHOLD)) {
+		if ((energyLevel % 10 === 0) && (energyLevel <= this._Const.ENERGY_THRESHOLD) && !this._eventOccurence.IS_TIRED) {
 			eventQueue.push('IS_TIRED');
+			this._eventOccurence.IS_TIRED = true;
+
+			var context = this;
+			setTimeout(function(){
+				context._eventOccurence.IS_TIRED = false;
+			}, 5000);
 		}
-		if ((hungerLevel % 10 === 0) && (hungerLevel < this._Const.HUNGER_THRESHOLD)) {
+		if ((hungerLevel % 5 === 0) && (hungerLevel >= this._Const.HUNGER_THRESHOLD) && !this._eventOccurence.IS_HUNGRY) {
 			eventQueue.push('IS_HUNGRY');
+			this._eventOccurence.IS_HUNGRY = true;
+
+			var context = this;
+			setTimeout(function(){
+				context._eventOccurence.IS_HUNGRY = false;
+			}, 5000);
 		}
-		if ((happinessLevel % 10 === 0) && (happinessLevel < this._Const.HAPPINESS_THRESHOLD)) {
+		if ((happinessLevel % 10 === 0) && (happinessLevel <= this._Const.HAPPINESS_THRESHOLD) && !this._eventOccurence.IS_BORED) {
 			eventQueue.push('IS_BORED');
+			this._eventOccurence.IS_BORED = true;
+
+			var context = this;
+			setTimeout(function(){
+				context._eventOccurence.IS_BORED = false;
+			}, 5000);
 		}
 
 		var context = this;
@@ -140,5 +179,5 @@ Crafty.c("Pet", {
 	},
 	showIsAsleepToast: function (){
 		new Toast({text: 'Shhhh... ' + this.pet.petName + ' is asleep!'});
-	}
+	},
 });
