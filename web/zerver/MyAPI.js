@@ -1,13 +1,67 @@
-exports.register = function (username, password, callback) {
+exports.checkUsername = function (username, password, callback) {
+	var pg = require('pg');
 
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.CHECKUSERNAME::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM users WHERE username = $1::varchar(255)', [username], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			      console.error('EXPORTS.CHECKUSERNAME::Running Query', err);
+
+			      callback(false, 'Error in database');
+			    } else {
+				    if (result.rows.length > 0) {
+				    	callback(false, 'Username already exists in the database');
+				    } else {
+				    	callback(true);
+				    }
+			    }
+			});
+		}
+	});	
+}
+
+exports.register = function (username, password, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.REGISTER::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, password], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+					console.error('EXPORTS.REGISTER::Running Query', err);
+
+					callback(false, 'Error in database');
+			    } else {
+				    callback(true);
+			    }
+			});
+		}
+	});	
 }
 
 exports.login = function (username, password, callback) {
 	var pg = require('pg');
 
 	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	console.log('test');
 
 	pg.connect(connectionString, function(err, client, done) {
 

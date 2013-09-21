@@ -1,10 +1,10 @@
 App.populator('page-login', function(page){
 	
 	console.log('app skeleton');
-
-	$(page).ready (function () {
-		var errorDiv = document.getElementById('errorDiv');
-		$('#frankerz_loginButton').click(function() {
+	
+	$(page).find('#frankerz_loginButton')
+		.on('click', function() {
+			var errorDiv = document.getElementById('errorDiv');
 			var username = document.frankerz_loginForm.username.value;
 			var password = document.frankerz_loginForm.password.value;
 
@@ -24,7 +24,6 @@ App.populator('page-login', function(page){
 
 			return false;
 		});
-	});
 });
 
 function displayError (error) {

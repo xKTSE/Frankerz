@@ -2,17 +2,24 @@ App.populator('page-register', function(page){
 	
 	console.log('app skeleton');
 
-	$(page).ready (function () {
-		var errorDiv = document.getElementById('errorDiv');
-		$('#frankerz_registerButton').click(function() {
+	$(page).find('#frankerz_registerButton')
+		.on('click', function() {
+			var errorDiv = document.getElementById('errorDiv');
 			var username = document.frankerz_registerForm.username.value;
 			var password = document.frankerz_registerForm.password.value;
 
 			if (username) {
 				displayLoading(page);
-				MyAPI.register(username, password, function (success, errorStr) {
+				MyAPI.checkUsername(username, password, function (success, errorStr) {
 					if (success) {
-						App.load('page-register-successful');
+						MyAPI.register(username, password, function (){
+							if (success) {
+								App.load('page-register-successful');
+							} else {
+								displayError(errorStr);
+								removeLoading(page);
+							}
+						});
 					} else {
 						displayError(errorStr);
 						removeLoading(page);
@@ -24,7 +31,6 @@ App.populator('page-register', function(page){
 
 			return false;
 		});
-	});
 });
 
 function displayError (error) {
