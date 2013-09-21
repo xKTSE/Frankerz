@@ -9,7 +9,7 @@ function PetState (lifeCycle, hunger, entertainment, energy) {
 		var timeStamp = new Date().getTime();
 		this.lifeCycle = new LifeCycle (lifeCycleEnum.BABY, timeStamp);
 		this.hunger = new Hunger (50, timeStamp);
-		this.entertainment = new Entertained (50, timeStamp);
+		this.entertainment = new Entertainment (50, timeStamp);
 		this.energy = new Energy (100, timeStamp);
 	} else if (arguments.length === 4) {
 		this.lifeCycle = lifeCycle;
@@ -22,6 +22,12 @@ function PetState (lifeCycle, hunger, entertainment, energy) {
 	} else {
 		displayErrorToast('Validation for the arguments of the Pet State object failed');
 	}
+}
+
+PetState.prototype.sleep = false;
+
+PetState.prototype.isAsleep = function () {
+	return this.sleep;
 }
 
 PetState.prototype.validateArguments = function () {
@@ -74,15 +80,15 @@ Hunger.prototype.validateArguments = function () {
 	return false;
 }
 
-function Entertained (entertainmentValue, lastPlayed) {
+function Entertainment (entertainmentValue, lastPlayed) {
 	this.entertainmentValue = entertainmentValue;
 	this.lastPlayed = lastPlayed;	
 	if (!this.validateArguments()) {	
-		displayErrorToast('Validation for the arguments of the Entertained object failed');
+		displayErrorToast('Validation for the arguments of the Entertainment object failed');
 	}
 }
 
-Entertained.prototype.validateArguments = function () {
+Entertainment.prototype.validateArguments = function () {
 	if (areArgumentsNumbers(this.entertainmentValue, this.lastPlayed)) {
 		if (areArgumentsIntegers(this.entertainmentValue, this.lastPlayed)) {
 			if (this.entertainmentValue >= 0
