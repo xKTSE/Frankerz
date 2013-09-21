@@ -1,5 +1,9 @@
 App.populator('page-pet-creation', function(page){
 	
-	//TO DO
+	$(page).find('#fillIn')
+		.html(mockUserSession);
+
+	$(page).find('#loggedInAs')
+		.on('click', displaySignOutBox);
 
 });

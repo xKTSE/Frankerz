@@ -2,29 +2,40 @@ App.populator('page-register', function(page){
 	
 	console.log('app skeleton');
 
-	$(page).ready (function () {
-		var errorDiv = document.getElementById('errorDiv');
-		$('#frankerz_registerButton').click(function() {
+	$(page).find('#frankerz_registerButton')
+		.on('click', function() {
+			var errorDiv = document.getElementById('errorDiv');
 			var username = document.frankerz_registerForm.username.value;
+			username = username.trim();
 			var password = document.frankerz_registerForm.password.value;
 
-			if (username) {
+			if (username && password && password.length >= 8) {
 				displayLoading(page);
-				MyAPI.register(username, password, function (success, errorStr) {
+				MyAPI.checkUsername(username, password, function (success, errorStr) {
 					if (success) {
-						App.load('page-register-successful');
+						MyAPI.register(username, password, function (){
+							if (success) {
+								App.load('page-register-successful');
+							} else {
+								displayError(errorStr);
+								removeLoading(page);
+							}
+						});
 					} else {
 						displayError(errorStr);
 						removeLoading(page);
 					}
 				});
 			} else {
-				displayError('Please select a username!');
+				if (password && password.length < 8) {
+					displayError ('Password length must be at least 8 characters long');
+				} else {
+					displayError('Username and password field must be filled in');
+				}
 			}
 
 			return false;
 		});
-	});
 });
 
 function displayError (error) {

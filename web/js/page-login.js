@@ -1,17 +1,19 @@
 App.populator('page-login', function(page){
 	
 	console.log('app skeleton');
-
-	$(page).ready (function () {
-		var errorDiv = document.getElementById('errorDiv');
-		$('#frankerz_loginButton').click(function() {
+	
+	$(page).find('#frankerz_loginButton')
+		.on('click', function() {
+			var errorDiv = document.getElementById('errorDiv');
 			var username = document.frankerz_loginForm.username.value;
+			username = username.trim();
 			var password = document.frankerz_loginForm.password.value;
 
 			if (username) {
 				displayLoading(page);
 				MyAPI.login(username, password, function (success, errorStr) {
 					if (success) {
+						setMockUserSession(username);
 						App.load('page-pet-creation');
 					} else {
 						displayError(errorStr);
@@ -24,7 +26,6 @@ App.populator('page-login', function(page){
 
 			return false;
 		});
-	});
 });
 
 function displayError (error) {
