@@ -9,6 +9,7 @@
           <link rel="stylesheet" href="css/frankerz.css?inline=1">
           <link rel="stylesheet" href="css/page-login.css?inline=1">
           <link rel="stylesheet" href="css/page-register.css?inline=1">
+          <link rel="stylesheet" href="css/page-pet-creation.css?inline=1">
           <link rel="stylesheet" href="css/page-game.css?inline=1">
      </head>
 
@@ -20,16 +21,16 @@
                     <div class="sub-description">The mobile web pet game</div>
                </div>
                     <form id="info-form" name="frankerz_loginForm">
-                         <br>Username:</br>
-                         <input type="text" name="username"><br>
-                         <br>Password:</br>
+                         <div class="form-header">Username:</div>
+                         <input type="text" name="username">
+                         <div class="form-header">Password:</div>
                          <input type="password" name="password">
                          <div class="app-button" id="frankerz_loginButton">Login</div>
+                         <div class="sub-header">Don't have an account?</div>
+                         <div class="app-button" data-target="page-register">Register</div>
+               </div>
                     </form>
                     <div id="errorDiv"></div>
-                    <div class="sub-header">Don't have an account?</div>
-                    <div class="app-button" data-target="page-register">Register</div>
-               </div>
           </div>
 
           <div class="app-page" data-page="page-register">
@@ -37,9 +38,12 @@
                     <div class="app-title">Register</div>
                </div>
                <div class="app-content">
-                    <form name="frankerz_registerForm">
-                         Username: <input type="text" name="username"><br>
-                         Password: <input type="password" name="password">
+                    <form id="info-form" name="frankerz_registerForm">
+                         <div class="form-header">Username:</div>
+                         <input type="text" name="username" placeholder="Enter a username">
+                         <div class="form-header">Password:</div>
+                         <input type="password" name="password"
+                         placeholder="Enter a password">
                          <div class="app-button" id="frankerz_registerButton">Register</div>
                          <div class="app-button" data-back="true">Back</div>
                     </form>
@@ -64,6 +68,7 @@
                     </div>
                </div>
                <div class="app-content">
+<<<<<<< HEAD
                     <div class="app-section">
                          <form class="pet-information" name="frankerz_addPetForm">
                               <div class="field-pet-name">Pet name:
@@ -88,6 +93,26 @@
                     <div class="app-section">
                          <div class="app-button" id="create-pet">Create pet!</div>
                     </div>
+=======
+                    <form id="info-form" class="pet-information" name="frankerz_addPetForm">
+                         <div class="field-pet-name">Pet name:
+                              <input type="text" name="petName" placeholder="Enter a name"></input>
+                         </div>
+                         <div class="field-pet-gender">Gender: 
+                              <input type="radio" id="male" name="petGender" value="male">Male
+                              <input type="radio" id="female" name="petGender" value="female">Female
+                         </div>
+                         <div class="app-section">
+                              <ul id="petList" class="app-list">
+                                   <label>Species</label>
+     <!--                               <li id='selectedPetType'>Item 1</li>
+                                   <li>Item 2</li>
+                                   <li>Item 3</li> -->
+                              </ul>
+                         </div>
+                         <div class="app-button" id="create-pet">Create pet!</div>
+                    </form>
+>>>>>>> 651fcbc634a5fb0db03c99b3c881c886fbeed09c
                </div>
           </div>
 

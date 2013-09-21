@@ -30,7 +30,7 @@ App.populator('page-login', function(page){
 					}
 				});
 			} else {
-				displayError('Please enter your username!');
+				new Toast({text: 'Please enter your username!'});
 			}
 
 			return false;
