@@ -26,8 +26,8 @@
      height: 60px;
 }
 
-.action-bar .action-bar-list .actions.active {
-     background-color: red;
+.action-bar .action-bar-list .actions:hover {
+     background-color: #333;
 }
 
 
