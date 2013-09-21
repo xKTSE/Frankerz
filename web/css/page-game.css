@@ -43,3 +43,11 @@
 #talk-to-pet {
      background-image: url(../img/icon_talk_to.png);
 }
+
+#options {
+     width: 30px;
+     background-image: url(../img/icon_options.png);
+     background-repeat: no-repeat;
+     background-size: 30px auto;
+     background-position: center;
+}
