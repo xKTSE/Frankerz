@@ -13,7 +13,7 @@ exports.login = function (username, password, callback) {
 			callback(false, 'Error in database');
 		} else {
 			client.query('SELECT * FROM users WHERE username = $1::varchar(255)', [username], function(err, result) {
-			    //call `done()` to release the client back to the pool
+			    //call 'done()' to release the client back to the pool
 		    	done();
 
 			    if(err) {
@@ -116,7 +116,7 @@ exports.addPet = function (pet, callback) {
 		} else {
 			client.query('INSERT INTO pets (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id', 
 				[pet.petName, pet.petType, pet.petGender, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
-			    //call `done()` to release the client back to the pool
+			    //call 'done()' to release the client back to the pool
 		    	done();
 
 			    if(err) {
@@ -147,7 +147,7 @@ exports.updatePet = function (pet, callback) {
 		} else {
 			client.query('UPDATE pets SET (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) = ($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) WHERE id = $1', 
 				[pet.petId, pet.petName, pet.petType, pet.petGender, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
-			    //call `done()` to release the client back to the pool
+			    //call 'done()' to release the client back to the pool
 		    	done();
 
 			    if(err) {
@@ -175,7 +175,7 @@ exports.deletePet = function (petId, callback) {
 			callback(false, 'Error in database');
 		} else {
 			client.query('DELETE FROM pets WHERE id = $1', [petId], function(err, result) {
-			    //call `done()` to release the client back to the pool
+			    //call 'done()' to release the client back to the pool
 		    	done();
 
 			    if(err) {
@@ -184,6 +184,118 @@ exports.deletePet = function (petId, callback) {
 			      	callback(false, 'Error in database');
 			    } else {
 			    	callback(true, 'Successfully deleted pet from database')
+			    }
+			});
+		}
+	});	
+}
+
+exports.getPetTypes = function (callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.GETPETTYPES::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM petConfigs', function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.GETPETTYPES::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    }
+			});
+		}
+	});		
+}
+
+exports.getPetConfig = function (petType, lifeCycleValue, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.GETPETCONFIG::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM petConfigs WHERE petType = $1 AND lifeCycleValue = $2', [petType, lifeCycleValue], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.GETPETCONFIG::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    }
+			});
+		}
+	});	
+}
+
+exports.getFoodObjects = function (petType, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.GETFOODOJBECTS::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM food WHERE $1 = ANY(pettype)', [petType], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.GETFOODOJBECTS::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    }
+			});
+		}
+	});	
+}
+
+exports.getActivityObjects = function (petType, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.GETACTIVITYOBJECTS::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM activities WHERE $1 = ANY(pettype)', [petType], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.GETACTIVITYOBJECTS::Running Query', err);
+
+			      	callback(false, 'Error in database');
+			    } else {
+			    	callback(true, 'Successfully retrieved all pet types', result.rows)
 			    }
 			});
 		}

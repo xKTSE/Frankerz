@@ -19,3 +19,27 @@ CREATE TABLE pets (
 	petEnergyTime bigint not null,
 	petEnergyValue smallint not null
 );
+
+CREATE TABLE petConfigs (
+	petType smallint not null,
+	petTypeName varchar(255) not null,
+	lifeCycleValue smallint not null,
+	lifeCycleRate real not null,
+	hungerRate real not null,
+	entertainmentRate real not null,
+	energyRate real not null
+);
+
+CREATE TABLE food (
+	id serial primary key,
+	petType smallint[] not null,
+	foodName varchar(255) not null,
+	hungerDrop smallint not null
+);
+
+CREATE TABLE activities (
+	id serial primary key,
+	petType smallint[] not null,
+	activityName varchar(255) not null,
+	entertainmentIncrease smallint not null
+);

@@ -52,7 +52,7 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 
 	// this.DB_save();
 
-	this.petConfig = this.DB_getPetConfig();
+	this.petConfig = this.DB_initPetConfig();
 }
 
 Pet.prototype.validateArguments = function () {
@@ -92,10 +92,12 @@ Pet.prototype.sleep = function () {
 	this.petState.energy = energy;
 }
 
-Pet.prototype.play = function (activityEnum) {
+Pet.prototype.play = function (activityObject) {
 	var timeStamp = new Date().getTime();
 
 	var entertainmentValue = this.petState.entertainment.entertainmentvalue;
+
+	var newEntertainmentValue = entertainmentValue + activityObject.entertainmentIncrease;
 
 	var entertainment = new Entertainment (entertainmentValue, timeStamp);
 
@@ -133,10 +135,36 @@ Pet.prototype.DB_save = function () {
 	return false;
 }
 
-Pet.prototype.DB_getPetState = function () {
-	return false;
+Pet.prototype.DB_initPetConfig = function () {
+	DB_getPetConfig(this.petType, this.petState.lifeCycle.lifeCycleValue, function (success, errorStr, rows){
+        if (success) {
+        	frankerz_callbackCount++;
+            console.log(rows[0].pettypename);
+            console.log('success!');
+        } else {
+            console.log(errorStr);
+        }
+    });
 }
 
-Pet.prototype.DB_getPetConfig = function () {
-	return false;
+Pet.prototype.DB_initFoodObjects = function () {
+	DB_getFoodObjects(this.petType, function (success, errorStr, rows){
+        if (success) {
+        	frankerz_callbackCount++;
+            console.log('success!');
+        } else {
+            console.log(errorStr);
+        }
+    });
+}
+
+Pet.prototype.DB_initActivityObjects = function () {
+	DB_getActivityObjects(this.petType, function (success, errorStr, rows){
+        if (success) {
+        	frankerz_callbackCount++;
+            console.log('success!');
+        } else {
+            console.log(errorStr);
+        }
+    });
 }
