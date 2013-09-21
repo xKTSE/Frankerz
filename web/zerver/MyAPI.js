@@ -85,7 +85,7 @@ exports.login = function (username, password, callback) {
 				    	callback(false, 'Passwords do not match');
 				    	console.error(result.rows[0].password);
 				    } else {
-				    	callback(true);
+				    	callback(true, result.rows[0].id);
 				    }
 			    }
 			});
@@ -149,7 +149,7 @@ exports.getPetListOfUser = function (ownerId, callback) {
 
 				} else {
 
-					callback(true, 'Successfully retrieved all pets belonging to user', result.rows);
+					callback(true, result.rows);
 
 				}
 
@@ -182,7 +182,7 @@ exports.addPet = function (pet, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully added pet to database', result.rows[0].id);
+			    	callback(true, result.rows[0].id);
 			    }
 			});
 		}
@@ -269,7 +269,7 @@ exports.getPetTypes = function (callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    	callback(true, result.rows)
 			    }
 			});
 		}
@@ -297,7 +297,7 @@ exports.getPetConfig = function (petType, lifeCycleValue, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    	callback(true, result.rows)
 			    }
 			});
 		}
@@ -325,7 +325,7 @@ exports.getFoodObjects = function (petType, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    	callback(true, result.rows)
 			    }
 			});
 		}
@@ -353,7 +353,7 @@ exports.getActivityObjects = function (petType, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully retrieved all pet types', result.rows)
+			    	callback(true, result.rows)
 			    }
 			});
 		}

@@ -11,18 +11,18 @@ App.populator('page-register', function(page){
 
 			if (username && password && password.length >= 8) {
 				displayLoading(page);
-				MyAPI.checkUsername(username, password, function (success, errorStr) {
+				MyAPI.checkUsername(username, password, function (success, result) {
 					if (success) {
 						MyAPI.register(username, password, function (){
 							if (success) {
 								App.load('page-register-successful');
 							} else {
-								displayError(errorStr);
+								displayError(result);
 								removeLoading(page);
 							}
 						});
 					} else {
-						displayError(errorStr);
+						displayError(result);
 						removeLoading(page);
 					}
 				});
@@ -40,14 +40,4 @@ App.populator('page-register', function(page){
 
 function displayError (error) {
 	errorDiv.innerHTML = error;
-} 
-
-              // setCallbackCheck(3);
-
-               // var pet = new Pet(null, 'john', 0, genderEnum.MALE, 1);
-
-               // pet.DB_initFoodObjects();
-
-               // pet.DB_initActivityObjects();
-
-               // frankerz_callbackInterval = setInterval(waitForCallbackComplete, 1000);
+}
