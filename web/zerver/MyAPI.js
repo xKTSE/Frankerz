@@ -297,7 +297,7 @@ exports.getPetConfig = function (petType, lifeCycleValue, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, result.rows)
+			    	callback(true, result.rows[0])
 			    }
 			});
 		}

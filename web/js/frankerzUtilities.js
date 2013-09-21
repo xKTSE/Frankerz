@@ -9,11 +9,13 @@ function displayLoading (page) {
 
     blocker.appendChild(spinner);
 
-    $(page).find('.app-content').append(blocker);
+    if (arguments.length == 0 ) $('.app-page').find('.app-content').append(blocker);
+    else $(page).find('.app-content').append(blocker);
 }
 
 function removeLoading (page) {
-    $(page).find('#blocker').remove();
+    if (arguments.length == 0) $('.app-page').find('#blocker').remove();
+    else $(page).find('#blocker').remove();
 }
 
 function displayErrorToast (msg) {
@@ -21,7 +23,7 @@ function displayErrorToast (msg) {
 
 	var toast = new Toast(options);
 
-	//throw new Error('Stop execution');
+	throw new Error('Stop execution');
 }
 
 function isInt(n) {
@@ -55,7 +57,11 @@ function printPet(pet) {
 		'hunger last slept: ' + pet.petState.hunger.lastAte + '\n' + '\n' +
 		'hunger value: ' + pet.petState.hunger.hungerValue + '\n' + '\n' +
 		'entertainment last slept: ' + pet.petState.entertainment.lastPlayed + '\n' + '\n' +
-		'entertainment value: ' + pet.petState.entertainment.entertainmentValue);
+		'entertainment value: ' + pet.petState.entertainment.entertainmentValue  + '\n' + '\n' +
+        'lifeCycle rate: ' + pet.petConfig.lifeCycleRate + '\n' + '\n' +
+        'hunger rate: ' + pet.petConfig.hungerRate + '\n' + '\n' +
+        'entertainment rate: ' + pet.petConfig.entertainmentRate + '\n' + '\n' +
+        'energy rate: ' + pet.petConfig.energyRate);
 }
 
 function DB_addPet(pet) {
@@ -132,6 +138,9 @@ var frankerz_callbackCheck = null;
 var frankerz_callbackInterval = null;
 var mockUserSession = null;
 var petTypeArray = new Array();
+var functionToCallAfterDBCalls = function () {return false;};
+var globalPage = null;
+var pet = null;
 
 function setCallbackCheck(callbackCheck) {
     frankerz_callbackCheck = callbackCheck;
@@ -139,13 +148,17 @@ function setCallbackCheck(callbackCheck) {
 
 function waitForCallbackComplete() {
     if (frankerz_callbackCount == frankerz_callbackCheck) {
-        alert('callbacks completed!');
         clearInterval(frankerz_callbackInterval);
+        functionToCallAfterDBCalls();
     }
+    // reset
+    frankerz_callbackCount = 0;
+    functionToCallAfterDBCalls = function () {};
+    functionToCallAfterDBCallsArguments = new Array();
 }
 
-function setMockUserSession (username) {
-    mockUserSession = username;
+function setMockUserSession (user) {
+    mockUserSession = user;
 }
 
 function signOut () {
@@ -192,23 +205,19 @@ function displaySignedInUser (page) {
 }
 
 function initializePetTypeArray (page) {
-    if (petTypeArray.length == 0 ){
-        displayLoading(page);
-
-        MyAPI.getPetTypes( function(success, result) {
-            if (success) {
-                var types = new Array();
-                for (var i = 0; i < result.length; i++) {
-                    if (types.indexOf(result[i].pettype) == -1) {
-                        petTypeArray.push(new PetType(result[i].pettype, result[i].pettypename));
-                        types.push(result[i].pettype);
-                    }
+    MyAPI.getPetTypes( function(success, result) {
+        if (success && result.length > 0) {
+            var types = new Array();
+            for (var i = 0; i < result.length; i++) {
+                if (types.indexOf(result[i].pettype) == -1) {
+                    petTypeArray.push(new PetType(result[i].pettype, result[i].pettypename));
+                    types.push(result[i].pettype);
                 }
-                removeLoading(page);
-                console.log('pet type array initialized from database');
-            } else {
-                displayErrorToast('Loading application data failed');
             }
-        });
-    }
+            frankerz_callbackCount++;
+            console.log('pet type array initialized from database');
+        } else {
+            displayErrorToast('Loading application data failed');
+        }
+    });
 }

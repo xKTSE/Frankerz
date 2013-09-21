@@ -49,8 +49,18 @@
 
 #cancel {
 	position: absolute;
-	top: 120px;
+	top: 160px;
 	left: 100px;
 	color: white;
 	border: none;	
+}
+
+#selectedPetType {
+	background-color: rgb(66, 92, 0);
+	color: white;
+}
+
+.app-list > label {
+	background-color: #9BD600;
+	color: #425C00;
 }
