@@ -6,6 +6,7 @@
           
           <link rel="stylesheet" href="css/default.css?inline=1">
           <link rel="stylesheet" href="css/page-game.css?inline=1">
+          <link rel="stylesheet" href="css/frankerz.css?inline=1">
      </head>
 
      <body>
@@ -14,7 +15,35 @@
                     <div class="app-title">Login</div>
                </div>
                <div class="app-content">
-                  <div class="app-button" data-target="page-pet-creation">Create a pet!</div>
+                    <form name="frankerz_loginForm">
+                         Username: <input type="text" name="username"><br>
+                         Password: <input type="password" name="password">
+                         <div class="app-button" id="frankerz_loginButton">Login</div>
+                    </form>
+                    <div id="errorDiv"></div>
+                    <div class="app-button" data-target="page-register">Register</div>
+               </div>
+          </div>
+
+          <div class="app-page" data-page="page-register">
+               <div class="app-topbar">
+                    <div class="app-title">Register</div>
+               </div>
+               <div class="app-content">
+                    <form name="frankerz_registerForm">
+                         Username: <input type="text" name="username"><br>
+                         Password: <input type="password" name="password">
+                         <div class="app-button" id="frankerz_registerButton">Register</div>
+                    </form>
+                    <div id="errorDiv"></div>
+               </div>
+          </div>
+
+          <div class="app-page" data-page="page-register-successful">
+               <div class="app-topbar">
+                    <div class="app-title">Successful Registration</div>
+               </div>
+               <div class="app-content">
                </div>
           </div>
 

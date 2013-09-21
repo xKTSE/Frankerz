@@ -1,3 +1,7 @@
+exports.register = function (username, password, callback) {
+
+}
+
 exports.login = function (username, password, callback) {
 	var pg = require('pg');
 

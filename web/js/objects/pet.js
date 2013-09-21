@@ -1,21 +1,12 @@
-var typeEnum = {
-	TEST1 : 0,
-	TEST2 : 1
-}
+var typeArray = new Array();
+
+var foodArray = new Array();
+
+var activityArray = new Array();
 
 var genderEnum = {
 	MALE : 0,
 	FEMALE : 1
-}
-
-var foodEnum = {
-	TEST1 : 20,
-	TEST2 : 5
-}
-
-var activityEnum = {
-	TEST1 : 20,
-	TEST2 : 5
 }
 
 var lifeCycleEnum = {
@@ -26,13 +17,7 @@ var lifeCycleEnum = {
 }
 
 function Pet (petId, petName, petType, petGender, userId, petState) {
-
-	this.petId = null;
-	this.petName = null;
-	this.petType = null;
-	this.petGender = null;
-	this.petState = null;
-	this.userId = null;
+	
 	this.petConfig = null;
 
 	this.petId = petId;
@@ -71,9 +56,9 @@ Pet.prototype.validateArguments = function () {
 		&& typeof this.petGender == 'number'
 		&& typeof this.userId == 'number') {
 
-		if (this.petType == typeEnum.TEST1 || this.petType == typeEnum.TEST2) {
+		if (areArgumentsIntegers(this.petType, this.petGender, this.userId)) {
 			if (this.petGender == genderEnum.MALE || this.petGender == genderEnum.FEMALE) {
-				if (isInt(this.userId) && this.userId >= 1) {
+				if (this.userId >= 1) {
 					return true;
 				}
 			}
@@ -85,10 +70,10 @@ Pet.prototype.validateArguments = function () {
 Pet.prototype.sleep = function () {
 }
 
-Pet.prototype.play = function (activityObject) {
+Pet.prototype.play = function () {
 }
 
-Pet.prototype.eat = function (foodEnum) {
+Pet.prototype.eat = function () {
 }
 
 Pet.prototype.calculateHappiness = function () {

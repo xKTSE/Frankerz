@@ -1,3 +1,23 @@
+function displayLoading (page) {
+    var blocker = document.createElement('div');
+    var spinner = document.createElement('img');
+
+    blocker.id = 'blocker';
+
+    spinner.src = 'images/ajax-loader.gif';
+    spinner.id = 'spinner';
+
+    blocker.appendChild(spinner);
+
+    $('.app-content').append(blocker);
+}
+
+function removeLoading (page) {
+    var blocker = document.getElementById('blocker');
+
+    $(blocker).remove();
+}
+
 function displayErrorToast (msg) {
 	var options = {text:msg};
 
