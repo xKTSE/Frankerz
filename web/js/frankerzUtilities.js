@@ -9,13 +9,11 @@ function displayLoading (page) {
 
     blocker.appendChild(spinner);
 
-    $('.app-content').append(blocker);
+    $(page).find('.app-content').append(blocker);
 }
 
 function removeLoading (page) {
-    var blocker = document.getElementById('blocker');
-
-    $(blocker).remove();
+    $(page).find('#blocker').remove();
 }
 
 function displayErrorToast (msg) {
@@ -61,7 +59,7 @@ function printPet(pet) {
 }
 
 function DB_addPet(pet) {
-    MyAPI.addPet(pet, function (success, errorStr, id) {
+    MyAPI.addPet(pet, function (success, result) {
         if (success) {
 			pet.petId = id;
 			console.log('success!');
@@ -72,7 +70,7 @@ function DB_addPet(pet) {
 }
 
 function DB_updatePet(pet) {
-    MyAPI.updatePet(pet, function (success, errorStr, id) {
+    MyAPI.updatePet(pet, function (success, result) {
         if (success) {
             console.log('success!');
         } else {
@@ -82,7 +80,7 @@ function DB_updatePet(pet) {
 }
 
 function DB_deletePet(petId) {
-	MyAPI.deletePet(petId, function (success, errorStr, rows) {
+	MyAPI.deletePet(petId, function (success, result) {
         if (success) {
             console.log('success!');
         } else {
@@ -92,7 +90,7 @@ function DB_deletePet(petId) {
 }
 
 function DB_getPetListOfUser(ownerId) {
-    MyAPI.getPetListOfUser(ownerId, function (success, errorStr, rows) {
+    MyAPI.getPetListOfUser(ownerId, function (success, result) {
         if (success) {
         	console.log(rows.length);
             console.log('success!');
@@ -103,7 +101,7 @@ function DB_getPetListOfUser(ownerId) {
 }
 
 function DB_getPetTypes() {
-    MyAPI.getPetTypes(function (success, errorStr, rows){
+    MyAPI.getPetTypes(function (success, result){
         if (success) {
             var types = new Array();
             for (var i = 0; i < rows.length; i++) {
@@ -132,6 +130,8 @@ function DB_getActivityObjects(petType, callback) {
 var frankerz_callbackCount = 0;
 var frankerz_callbackCheck = null;
 var frankerz_callbackInterval = null;
+var mockUserSession = null;
+var petTypeArray = new Array();
 
 function setCallbackCheck(callbackCheck) {
     frankerz_callbackCheck = callbackCheck;
@@ -143,8 +143,6 @@ function waitForCallbackComplete() {
         clearInterval(frankerz_callbackInterval);
     }
 }
-
-var mockUserSession = null;
 
 function setMockUserSession (username) {
     mockUserSession = username;
@@ -191,4 +189,26 @@ function displaySignedInUser (page) {
 
     $(page).find('#loggedInAs')
         .on('click', displaySignOutBox);
+}
+
+function initializePetTypeArray (page) {
+    if (petTypeArray.length == 0 ){
+        displayLoading(page);
+
+        MyAPI.getPetTypes( function(success, result) {
+            if (success) {
+                var types = new Array();
+                for (var i = 0; i < result.length; i++) {
+                    if (types.indexOf(result[i].pettype) == -1) {
+                        petTypeArray.push(new PetType(result[i].pettype, result[i].pettypename));
+                        types.push(result[i].pettype);
+                    }
+                }
+                removeLoading(page);
+                console.log('pet type array initialized from database');
+            } else {
+                displayErrorToast('Loading application data failed');
+            }
+        });
+    }
 }

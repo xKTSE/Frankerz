@@ -40,14 +40,4 @@ App.populator('page-register', function(page){
 
 function displayError (error) {
 	errorDiv.innerHTML = error;
-} 
-
-              // setCallbackCheck(3);
-
-               // var pet = new Pet(null, 'john', 0, genderEnum.MALE, 1);
-
-               // pet.DB_initFoodObjects();
-
-               // pet.DB_initActivityObjects();
-
-               // frankerz_callbackInterval = setInterval(waitForCallbackComplete, 1000);
+}

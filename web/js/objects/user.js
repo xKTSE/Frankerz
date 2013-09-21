@@ -10,7 +10,7 @@ function User (username, userId) { /* userId | username */
 }
 
 User.prototype.validateArguments = function () {
-	if (typeof this.username == 'string' && typeof this.userId == 'number' && this.userId >= 1) {
+	if (typeof this.username == 'string' && typeof this.userId == 'number' && isInt(this.userId) && this.userId >= 1) {
 		return true;
 	}
 	return false;
