@@ -71,12 +71,18 @@ Pet.prototype.validateArguments = function () {
 }
 
 Pet.prototype.sleep = function () {
+	this.petState.sleep = true;
 	var timeStamp = new Date().getTime();
 
-	// Reset energy level to 100 everytime pet falls asleep
-	var newEnergyObject = new Energy (100, timeStamp);
+	var context = this;
+	setTimeout(function(){
+		// Reset energy level to 100 everytime pet falls asleep
+		var newEnergyObject = new Energy (100, timeStamp);
+		context.petState.energy = newEnergyObject;
+		context.petState.sleep = false;
 
-	this.petState.energy = newEnergyObject;
+		// Pet will wake up after 1min 30s
+	}, 90*1000);
 }
 
 Pet.prototype.play = function (activity) {

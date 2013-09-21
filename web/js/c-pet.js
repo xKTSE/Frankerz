@@ -3,7 +3,7 @@ Crafty.c("Pet", {
 	pet: undefined,
 	_Const: {
 		ENERGY_THRESHOLD: 20,
-		HUNGER_THRESHOLD: 55,
+		HUNGER_THRESHOLD: 70,
 		HAPPINESS_THRESHOLD: 30
 	},
 	_originalState: 'normal',
@@ -110,6 +110,9 @@ Crafty.c("Pet", {
 		IS_BORED : false
 	},
 	calculatePetState: function(){
+		if (this.pet.petState.isAsleep()) {
+			return;
+		}
 
 		var eventQueue = [];
 
@@ -135,7 +138,11 @@ Crafty.c("Pet", {
 				context._eventOccurence.IS_TIRED = false;
 			}, 5000);
 		}
-		if ((hungerLevel % 5 === 0) && (hungerLevel >= this._Const.HUNGER_THRESHOLD) && !this._eventOccurence.IS_HUNGRY) {
+		if (energyLevel === 0) {
+			// TODO: Fix the fact that the pet can sleep while a dialog is showing
+			eventQueue.push('SLEEP');
+		}
+		if ((hungerLevel % 10 === 0) && (hungerLevel >= this._Const.HUNGER_THRESHOLD) && !this._eventOccurence.IS_HUNGRY) {
 			eventQueue.push('IS_HUNGRY');
 			this._eventOccurence.IS_HUNGRY = true;
 
