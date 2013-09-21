@@ -24,6 +24,12 @@ function PetState (lifeCycle, hunger, entertainment, energy) {
 	}
 }
 
+PetState.prototype.sleep = false;
+
+PetState.prototype.isAsleep = function () {
+	return this.sleep;
+}
+
 PetState.prototype.validateArguments = function () {
 	return this.lifeCycle.validateArguments() && 
 			this.hunger.validateArguments() &&
