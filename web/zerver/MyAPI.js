@@ -85,7 +85,7 @@ exports.login = function (username, password, callback) {
 				    	callback(false, 'Passwords do not match');
 				    	console.error(result.rows[0].password);
 				    } else {
-				    	callback(true);
+				    	callback(true, result.rows[0].id);
 				    }
 			    }
 			});
@@ -149,7 +149,7 @@ exports.getPetListOfUser = function (ownerId, callback) {
 
 				} else {
 
-					callback(true, 'Successfully retrieved all pets belonging to user', result.rows);
+					callback(true, result.rows);
 
 				}
 

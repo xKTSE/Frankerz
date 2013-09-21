@@ -11,12 +11,21 @@ App.populator('page-login', function(page){
 
 			if (username) {
 				displayLoading(page);
-				MyAPI.login(username, password, function (success, errorStr) {
+				MyAPI.login(username, password, function (success, result) {
 					if (success) {
-						setMockUserSession(username);
-						App.load('page-pet-creation');
+						var user = new User (username, result);
+						setMockUserSession(user);
+						MyAPI.getPetListOfUser(result, function (success, result){
+							if (success) {
+								if (result.length > 0) App.load('page-pet-list');
+								else App.load('page-pet-creation');
+							} else {
+								displayError(result);
+								removeLoading(page);
+							}
+						});
 					} else {
-						displayError(errorStr);
+						displayError(result);
 						removeLoading(page);
 					}
 				});

@@ -184,3 +184,11 @@ function displaySignOutBox () {
 
     $('.app-content').append(blocker);
 }
+
+function displaySignedInUser (page) {
+    $(page).find('#fillIn')
+        .html(mockUserSession.username);
+
+    $(page).find('#loggedInAs')
+        .on('click', displaySignOutBox);
+}
