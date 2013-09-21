@@ -1,5 +1,7 @@
 #login-page {
-	background-color: #eeffb5;
+	background-color: #CEEB61;
+	color: black;
+	font-weight: 200;
 }
 
 .logo-container .big-logo {
@@ -22,10 +24,20 @@
 	margin-right: 10px;
 	margin-left: 10px;
 	margin-bottom: 20px;
-	padding: 0 10px 10px 10px;
-	background-color: #7DAD00;
-	color: #E5FFA1;
+	padding: 10px;
+	background-color: #f8f8f8;
+	color: black;
 	border-radius: 3px;
+}
+
+#info-form .form-header {
+	margin-left: 10px;
+}
+
+#info-form input {
+	margin-left: 10px;
+	border-radius: 0px;
+	margin-bottom: 20px;
 }
 
 
@@ -34,8 +46,7 @@
 	line-height: 48px;
 	color: #425C00;
 	margin: 10px;
-	background-color: #9BD600;
-	border-radius: 3px;
+	background-color: #9ACD32;
 	border-color: none;
 }
 
