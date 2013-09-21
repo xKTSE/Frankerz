@@ -83,47 +83,21 @@ Pet.prototype.validateArguments = function () {
 }
 
 Pet.prototype.sleep = function () {
-	var timeStamp = new Date().getTime();
-
-	var energy = this.petState.energy;
-
-	var energy = new Energy (100, timeStamp);
-
-	this.petState.energy = energy;
 }
 
 Pet.prototype.play = function (activityObject) {
-	var timeStamp = new Date().getTime();
-
-	var entertainmentValue = this.petState.entertainment.entertainmentvalue;
-
-	var newEntertainmentValue = entertainmentValue + activityObject.entertainmentIncrease;
-
-	var entertainment = new Entertainment (entertainmentValue, timeStamp);
-
-	this.petState.entertainment = entertainment;
 }
 
 Pet.prototype.eat = function (foodEnum) {
-	var timeStamp = new Date().getTime();
-
-	var hungerValue = this.petState.hunger.hungerValue;
-
-	var hunger = new Hunger (foodEnum, timeStamp);
-
-	this.petState.hunger = hunger;
 }
 
 Pet.prototype.calculateHappiness = function () {
-	return 0;
 }
 
 Pet.prototype.alertHunger = function () {
-	return 0;
 }
 
 Pet.prototype.alertPlay = function () {
-	return 0;
 }
 
 Pet.prototype.DB_save = function () {
@@ -132,7 +106,6 @@ Pet.prototype.DB_save = function () {
 	} else {
 		DB_updatePet(this);
 	}
-	return false;
 }
 
 Pet.prototype.DB_initPetConfig = function () {
