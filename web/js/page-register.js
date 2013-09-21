@@ -6,9 +6,10 @@ App.populator('page-register', function(page){
 		.on('click', function() {
 			var errorDiv = document.getElementById('errorDiv');
 			var username = document.frankerz_registerForm.username.value;
+			username = username.trim();
 			var password = document.frankerz_registerForm.password.value;
 
-			if (username) {
+			if (username && password && password.length >= 8) {
 				displayLoading(page);
 				MyAPI.checkUsername(username, password, function (success, errorStr) {
 					if (success) {
@@ -26,7 +27,11 @@ App.populator('page-register', function(page){
 					}
 				});
 			} else {
-				displayError('Please select a username!');
+				if (password && password.length < 8) {
+					displayError ('Password length must be at least 8 characters long');
+				} else {
+					displayError('Username and password field must be filled in');
+				}
 			}
 
 			return false;

@@ -20,7 +20,7 @@ exports.checkUsername = function (username, password, callback) {
 			      callback(false, 'Error in database');
 			    } else {
 				    if (result.rows.length > 0) {
-				    	callback(false, 'Username already exists in the database');
+				    	callback(false, 'Username has been taken');
 				    } else {
 				    	callback(true);
 				    }

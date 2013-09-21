@@ -143,3 +143,44 @@ function waitForCallbackComplete() {
         clearInterval(frankerz_callbackInterval);
     }
 }
+
+var mockUserSession = null;
+
+function setMockUserSession (username) {
+    mockUserSession = username;
+}
+
+function signOut () {
+    mockUserSession = null;
+}
+
+function displaySignOutBox () {
+    var blocker = document.createElement('div');
+    var signOutButton = document.createElement('div');
+    var cancelButton = document.createElement('div');
+
+    signOutButton.className = 'app-button';
+    cancelButton.className = 'app-button';
+
+    signOutButton.id = 'signOut';
+    signOutButton.innerHTML = 'signOut';
+
+    cancelButton.id = 'cancel';
+    cancelButton.innerHTML = 'cancel';
+
+    blocker.id = 'blocker';
+
+    blocker.appendChild(cancelButton);
+    blocker.appendChild(signOutButton);
+
+    cancelButton.onclick = function () {
+        $(blocker).remove();
+    }
+
+    signOutButton.onclick = function () {
+        signOut();
+        App.load('page-login');
+    }
+
+    $('.app-content').append(blocker);
+}

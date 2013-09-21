@@ -35,7 +35,8 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 		this.petState = new PetState();
 	}
 
-	this.petConfig = this.DB_initPetConfig();
+	// this.petConfig = this.DB_initPetConfig();
+	this.petConfig = new PetConfig();
 
 	// Counters to indicate when to decrement/increment petState values
 	this.petStateCounters = {
