@@ -50,7 +50,7 @@ App.populator('page-pet-list', function(page){
 
 			listItem.find('.list-pet-preview').css('background-image', petPreview);
 			listItem.find('.list-pet-name').text(petName);
-			listItem.find('.list-pet-type').text(petType);
+			listItem.find('.list-pet-type').text(petTypeName);
 			listItem.show();
 			
 			listItem.data("userPetListIndex", i);

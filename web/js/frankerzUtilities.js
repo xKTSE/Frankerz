@@ -18,6 +18,12 @@ function removeLoading (page) {
     else $(page).find('#blocker').remove();
 }
 
+function displayNotificationToast (msg) {
+    var options = {text:msg};
+
+    var toast = new Toast(options);
+}
+
 function displayErrorToast (msg) {
 	var options = {text:msg};
 
