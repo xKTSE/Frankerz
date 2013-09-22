@@ -161,8 +161,8 @@ function setCallbackCheck(callbackCheck) {
 
 function waitForCallbackComplete() {
     if (frankerz_callbackCheck == 0) {
-        displayErrorToast ('Callback check is 0');
         clearInterval(frankerz_callbackInterval);
+        displayErrorToast ('Callback check is 0');
     } else {
         if (frankerz_callbackCount == frankerz_callbackCheck) {
             clearInterval(frankerz_callbackInterval);
