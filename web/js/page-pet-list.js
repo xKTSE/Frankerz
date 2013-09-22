@@ -50,47 +50,53 @@ App.populator('page-pet-list', function(page){
 			listItem.find('.list-pet-preview').css('background-image', petPreview);
 			listItem.find('.list-pet-name').text(petName);
 			listItem.find('.list-pet-type').text(petTypeName);
-
-			onLongPress(listItem,  function() {
+			listItem.show();
+			
+			listItem.data("userPetListIndex", i);
+			listItem.on('click', function () {
 				App.dialog({
-					title   : 'Delete Pet?',
-					successButton   : 'Yes' ,
-					cancelButton    : 'No' ,
+					playButton   	: 'Play with Pet' ,
+					deleteButton	: 'Delete Pet',
+					cancelButton    : 'Cancel'
 					}, function (choice) {
-					if (choice === 'success') {
-					// TODO : Delete function
+					if(choice === 'play') {
+						var index = listItem.data("userPetListIndex");
+
+						var petRow = userPetList[index];
+
+						displayLoading();
+
+						MyAPI.getPetConfig(petRow.pettype, petRow.petlifecyclevalue, function (success, result){
+							if (success) {
+								var petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
+								var petState = new PetState(new LifeCycle(petRow.petlifecyclevalue, parseInt(petRow.petlifecycletime)), new Hunger(petRow.pethungervalue, parseInt(petRow.pethungertime)), new Entertainment(petRow.petentertainmentvalue, parseInt(petRow.petentertainmenttime)), new Energy(petRow.petenergyvalue, parseInt(petRow.petenergytime)));
+								globalPet = new Pet(petRow.id, petRow.petname, petRow.pettype, petRow.petgender, mockUserSession.userId, petState, petConfig);
+
+								App.load('page-game');
+							}
+							else {
+								displayErrorToast('Failed to load pet data');
+						  	}
+						});
+					}
+					else if (choice === 'delete') {
+						 	App.dialog({
+						 		title: 'Are you sure you want to delete this pet?',
+						 		succesButton : 'Yes',
+						 		cancelButton : 'No'
+						 	}, function(subchoice){
+						 		if(subchoice === 'success'){
+						 			// TODO: Delete pet
+						 		}
+						 		else {
+						 			return;
+						 		}
+						 	});
 					}
 					else {
 						return;
 					}
 				});
-            });
-
-			listItem.show();
-			
-			listItem.data("userPetListIndex", i);
-			listItem.on('click', function () {
-			    var index = $(this).data("userPetListIndex");
-
-			    var petRow = userPetList[index];
-
-			    displayLoading();
-
-			    MyAPI.getPetConfig(petRow.pettype, petRow.petlifecyclevalue, function (success, result){
-			    	if (success) {
-
-			    		var petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
-
-			    		var petState = new PetState(new LifeCycle(petRow.petlifecyclevalue, parseInt(petRow.petlifecycletime)), new Hunger(petRow.pethungervalue, parseInt(petRow.pethungertime)), new Entertainment(petRow.petentertainmentvalue, parseInt(petRow.petentertainmenttime)), new Energy(petRow.petenergyvalue, parseInt(petRow.petenergytime)));
-
-			    		globalPet = new Pet(petRow.id, petRow.petname, petRow.pettype, petRow.petgender, mockUserSession.userId, petState, petConfig);
-
-			    		App.load('page-game');
-
-			    	} else {
-			    		displayErrorToast('Failed to load pet data');
-			    	}
-			    });
 			});
 
 			ul.append(listItem);
