@@ -1,3 +1,9 @@
 #loggedInAs {
 	font-size: 14px;
 }
+
+#selectedPetType {
+	margin: 10px;
+	background-color: #E4E4E4;
+	color: black;
+}
