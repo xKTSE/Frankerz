@@ -41,6 +41,8 @@ function LifeCycle (lifeCycleValue, lastEvolved) {
 	this.lifeCycleValue = lifeCycleValue;
 	this.lastEvolved = lastEvolved;	
 	if (!this.validateArguments()) {	
+		console.log(this.lifeCycleValue);
+		console.log(this.lastEvolved);
 		displayErrorToast('Validation for the arguments of the LifeCycle object failed');
 	}
 }
@@ -62,6 +64,8 @@ function Hunger (hungerValue, lastAte) {
 	this.hungerValue = hungerValue;
 	this.lastAte = lastAte;	
 	if (!this.validateArguments()) {	
+		console.log(this.hungerValue);
+		console.log(this.lastAte);
 		displayErrorToast('Validation for the arguments of the Hunger object failed');
 	}
 }
@@ -84,6 +88,8 @@ function Entertainment (entertainmentValue, lastPlayed) {
 	this.entertainmentValue = entertainmentValue;
 	this.lastPlayed = lastPlayed;
 	if (!this.validateArguments()) {	
+		console.log(this.entertainmentValue);
+		console.log(this.lastPlayed);
 		displayErrorToast('Validation for the arguments of the Entertainment object failed');
 	}
 }
@@ -106,6 +112,8 @@ function Energy (energyValue, lastSlept) {
 	this.energyValue = energyValue;
 	this.lastSlept = lastSlept;	
 	if (!this.validateArguments()) {	
+		console.log(this.energyValue);
+		console.log(this.lastSlept);
 		displayErrorToast('Validation for the arguments of the Energy object failed');
 	}
 }
