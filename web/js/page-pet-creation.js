@@ -58,22 +58,22 @@ function displayPetType () {
 				displayErrorToastNoFatal('Please enter a pet name');
 			} else if (!male && !female) {
 				displayErrorToastNoFatal('Please choose a gender');
+			} else {
+				if (male) petGender = genderEnum.MALE;
+				else petGender = genderEnum.FEMALE;
+
+				displayLoading();
+
+				functionToCallAfterDBCalls = function () {
+					App.load('page-game');
+				}
+
+				setCallbackCheck(2);
+
+				frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+
+				globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, true);				
 			}
-
-			if (male) petGender = genderEnum.MALE;
-			else petGender = genderEnum.FEMALE;
-
-			displayLoading();
-
-			functionToCallAfterDBCalls = function () {
-				App.load('page-game');
-			}
-
-			setCallbackCheck(1);
-
-			frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
-
-			globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId);
 		});		
 
 	removeLoading();
