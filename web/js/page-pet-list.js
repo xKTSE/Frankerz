@@ -54,13 +54,14 @@ App.populator('page-pet-list', function(page){
 			
 			listItem.data("userPetListIndex", i);
 			listItem.on('click', function () {
+				var innerListItem = this;
 				App.dialog({
 					playButton   	: 'Play with Pet' ,
 					deleteButton	: 'Delete Pet',
 					cancelButton    : 'Cancel'
 					}, function (choice) {
 					if(choice === 'play') {
-						var index = listItem.data("userPetListIndex");
+						var index = $(innerListItem).data("userPetListIndex");
 
 						var petRow = userPetList[index];
 
@@ -80,18 +81,30 @@ App.populator('page-pet-list', function(page){
 						});
 					}
 					else if (choice === 'delete') {
-						 	App.dialog({
-						 		title: 'Are you sure you want to delete this pet?',
-						 		succesButton : 'Yes',
-						 		cancelButton : 'No'
-						 	}, function(subchoice){
-						 		if(subchoice === 'success'){
-						 			// TODO: Delete pet
-						 		}
-						 		else {
-						 			return;
-						 		}
-						 	});
+					 	App.dialog({
+					 		title: 'Are you sure you want to delete this pet?',
+					 		successButton : 'Yes',
+					 		cancelButton : 'No'
+					 	}, function(subchoice){
+					 		if(subchoice === 'success'){
+								var index = $(innerListItem).data("userPetListIndex");
+
+								var petRow = userPetList[index];
+
+								displayLoading();
+
+								MyAPI.deletePet(petRow.id, function (success, result){
+									if (success) {
+										App.load('page-pet-list');
+									} else {
+										displayErrorToast(result);
+									}
+								});
+					 		}
+					 		else {
+					 			return;
+					 		}
+					 	});
 					}
 					else {
 						return;
