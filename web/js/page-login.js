@@ -16,10 +16,13 @@ App.populator('page-login', function(page){
 						setMockUserSession(user);
 						MyAPI.getPetListOfUser(result, function (success, result){
 							if (success) {
-								if (result.length > 0) App.load('page-pet-list');
-								else App.load('page-pet-creation');
-
-								App.removeFromStack(-1);
+								if (result.length > 0) {
+									App.load('page-pet-list');
+									App.removeFromStack(-1);
+								}
+								else {
+									App.load('page-pet-creation');
+								}
 							} else {
 								displayErrorToastNoFatal(result);
 								removeLoading(page);

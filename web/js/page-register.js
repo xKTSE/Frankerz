@@ -15,7 +15,12 @@ App.populator('page-register', function(page){
 					if (success) {
 						MyAPI.register(username, password, function (){
 							if (success) {
-								App.load('page-register-successful');
+								new Toast({
+									text: 'Succesfully registered, please login.',
+									duration: 3000
+								})
+								App.load('page-login');
+								App.removeFromStack();
 							} else {
 								displayErrorToastNoFatal(result);
 								removeLoading(page);

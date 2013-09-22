@@ -95,7 +95,9 @@ App.populator('page-pet-list', function(page){
 
 								MyAPI.deletePet(petRow.id, function (success, result){
 									if (success) {
+										new Toast({text: 'Succesfully deleted pet'});
 										App.load('page-pet-list');
+										App.removeFromStack(-1);
 									} else {
 										displayErrorToast(result);
 									}

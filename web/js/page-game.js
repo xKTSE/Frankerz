@@ -22,8 +22,8 @@ App.populator('page-game', function(page){
 			GAME_BACKGROUND_COLOUR	: '#222'
 		};
 
-		console.log(CONST.GAME_WIDTH);
-		console.log(CONST.GAME_HEIGHT);
+		//console.log(CONST.GAME_WIDTH);
+		//console.log(CONST.GAME_HEIGHT);
 
 		Game = {
 			start: function(){
@@ -45,7 +45,8 @@ App.populator('page-game', function(page){
 						});
 				pet.setData(globalPet);
 
-				console.log(pet);
+				new Toast({text : 'Hey there!'});
+				//console.log(pet);
 				// pet.bind('EnterFrame', function(){
 				// 	pet.calculatePetState();
 				// });
