@@ -20,23 +20,19 @@ App.populator('page-login', function(page){
 								if (result.length > 0) App.load('page-pet-list');
 								else App.load('page-pet-creation');
 							} else {
-								displayError(result);
+								displayErrorToastNoFatal(result);
 								removeLoading(page);
 							}
 						});
 					} else {
-						displayError(result);
+						displayErrorToastNoFatal(result);
 						removeLoading(page);
 					}
 				});
 			} else {
-				new Toast({text: 'Please enter your username!'});
+				displayErrorToastNoFatal('Please enter your username!');
 			}
 
 			return false;
 		});
 });
-
-function displayError (error) {
-	errorDiv.innerHTML = error;
-} 

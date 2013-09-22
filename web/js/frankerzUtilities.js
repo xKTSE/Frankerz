@@ -26,6 +26,12 @@ function displayErrorToast (msg) {
 	throw new Error('Stop execution');
 }
 
+function displayErrorToastNoFatal (msg) {
+    var options = {text:msg};
+
+    var toast = new Toast(options);   
+}
+
 function isInt(n) {
    return n % 1 === 0;
 }
@@ -67,10 +73,9 @@ function printPet(pet) {
 function DB_addPet(pet) {
     MyAPI.addPet(pet, function (success, result) {
         if (success) {
-			pet.petId = id;
-			console.log('success!');
+			pet.petId = result;
         } else {
-            console.log(errorStr);
+            displayErrorToast(result);
         }
    });
 }
@@ -140,21 +145,27 @@ var mockUserSession = null;
 var petTypeArray = new Array();
 var functionToCallAfterDBCalls = function () {return false;};
 var globalPage = null;
-var pet = null;
+var globalPet = null;
 
 function setCallbackCheck(callbackCheck) {
     frankerz_callbackCheck = callbackCheck;
 }
 
 function waitForCallbackComplete() {
-    if (frankerz_callbackCount == frankerz_callbackCheck) {
+    if (frankerz_callbackCheck == 0) {
+        displayErrorToast ('Callback check is 0');
         clearInterval(frankerz_callbackInterval);
-        functionToCallAfterDBCalls();
+    } else {
+        if (frankerz_callbackCount == frankerz_callbackCheck) {
+            clearInterval(frankerz_callbackInterval);
+            functionToCallAfterDBCalls();
+            // reset
+            frankerz_callbackCount = 0;
+            frankerz_callbackCheck = 0;
+            functionToCallAfterDBCalls = function () {};
+            functionToCallAfterDBCallsArguments = new Array();
+        }
     }
-    // reset
-    frankerz_callbackCount = 0;
-    functionToCallAfterDBCalls = function () {};
-    functionToCallAfterDBCallsArguments = new Array();
 }
 
 function setMockUserSession (user) {
@@ -220,4 +231,12 @@ function initializePetTypeArray (page) {
             displayErrorToast('Loading application data failed');
         }
     });
+}
+
+function determinePetTypeName(pettype) {
+    for (var i = 0; i < petTypeArray.length; i++) {
+        if (pettype == petTypeArray[i].petType) return petTypeArray[i].petTypeName;
+    }
+
+    displayErrorToast('Unknown pet type: ' + pettype );
 }

@@ -21,14 +21,14 @@ Crafty.c("Pet", {
 	},
 	updateState: function(state) {
 		// Change the currently displayed image of the pet
-		this.image('../img/' + this.pet.petType + '/' + this.pet.petType + '_' + state + '.png');
+		this.image('../img/' + this.pet.petTypeName + '/' + this.pet.petTypeName + '_' + state + '.png');
 
 		// Change image back to the original state the pet was in
 		if (state !== 'asleep' && state !== this._originalState) {
 			var context = this;
 		
 			setTimeout(function(){
-				context.image('../img/' + context.pet.petType + '/' + context.pet.petType + '_' + context._originalState + '.png');
+				context.image('../img/' + context.pet.petTypeName + '/' + context.pet.petTypeName + '_' + context._originalState + '.png');
 			}, 5000);
 		}
 	},

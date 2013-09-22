@@ -17,27 +17,23 @@ App.populator('page-register', function(page){
 							if (success) {
 								App.load('page-register-successful');
 							} else {
-								displayError(result);
+								displayErrorToastNoFatal(result);
 								removeLoading(page);
 							}
 						});
 					} else {
-						displayError(result);
+						displayErrorToastNoFatal(result);
 						removeLoading(page);
 					}
 				});
 			} else {
 				if (password && password.length < 8) {
-					displayError ('Password length must be at least 8 characters long');
+					displayErrorToastNoFatal ('Password length must be at least 8 characters long');
 				} else {
-					displayError('Username and password field must be filled in');
+					displayErrorToastNoFatal('Username and password field must be filled in');
 				}
 			}
 
 			return false;
 		});
 });
-
-function displayError (error) {
-	new Toast({text: error});
-}

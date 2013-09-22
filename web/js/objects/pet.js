@@ -22,6 +22,7 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 	this.petId = petId;
 	this.petName = petName;
 	this.petType = petType;
+	this.petTypeName = determinePetTypeName(petType);
 	this.petGender = petGender;
 	this.petState = petState;
 	this.userId = userId;
@@ -46,7 +47,7 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 		HAPPY_MAX: 10
 	};
 
-	// this.DB_save();
+	this.DB_save();
 }
 
 Pet.prototype.validateArguments = function () {
@@ -192,7 +193,7 @@ Pet.prototype.DB_initPetConfig = function () {
 	MyAPI.getPetConfig(this.petType, this.petState.lifeCycle.lifeCycleValue, function (success, result){
         if (success) {
         	frankerz_callbackCount++;
-            pet.petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
+            globalPet.petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
         } else {
         	displayErrorToast('Failed to load pet data');
         }

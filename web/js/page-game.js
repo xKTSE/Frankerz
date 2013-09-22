@@ -45,7 +45,7 @@ App.populator('page-game', function(page){
 							x: (CONST.GAME_WIDTH/2) - 32,
 							y: (CONST.GAME_HEIGHT/2) - 32
 						});
-				pet.setData(new Pet(null, dummy.name, dummy.type, dummy.gender, "TEST", null));
+				pet.setData(globalPet);
 
 				console.log(pet);
 				pet.bind('EnterFrame', function(){

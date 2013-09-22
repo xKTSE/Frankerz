@@ -26,7 +26,7 @@ App.populator('page-pet-creation', function(page){
 
 function displayPetType () {
 
-	var ul = $(globalPage).find('#petList');
+	var ul = $(globalPage).find('#speciesList');
     
     var li = null;
 
@@ -55,9 +55,9 @@ function displayPetType () {
 			var petType = null;
 
 			if (petName == '') {
-				displayErrorToast('Please enter a pet name');
+				displayErrorToastNoFatal('Please enter a pet name');
 			} else if (!male && !female) {
-				displayErrorToast('Please choose a gender');
+				displayErrorToastNoFatal('Please choose a gender');
 			}
 
 			if (male) petGender = genderEnum.MALE;
@@ -66,13 +66,14 @@ function displayPetType () {
 			displayLoading();
 
 			functionToCallAfterDBCalls = function () {
-				removeLoading();
-				printPet(pet);
+				App.load('page-game');
 			}
+
+			setCallbackCheck(1);
 
 			frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
 
-			pet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId);
+			globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId);
 		});		
 
 	removeLoading();
