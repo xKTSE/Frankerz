@@ -19,6 +19,7 @@
 }
 
 .pet-list-item .list-pet-name {
+	padding-top: 5px;
 	margin-left: 60px;
 	font-weight: bold;
 }
