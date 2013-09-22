@@ -82,7 +82,7 @@ Hunger.prototype.validateArguments = function () {
 
 function Entertainment (entertainmentValue, lastPlayed) {
 	this.entertainmentValue = entertainmentValue;
-	this.lastPlayed = lastPlayed;	
+	this.lastPlayed = lastPlayed;
 	if (!this.validateArguments()) {	
 		displayErrorToast('Validation for the arguments of the Entertainment object failed');
 	}

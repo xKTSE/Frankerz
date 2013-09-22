@@ -1,5 +1,8 @@
 App.populator('page-pet-list', function(page){
 
+	var p = $(page);
+	var petListItem = p.find('.pet-list-item').remove();
+
 	var userPetList = null;
 
 	displayLoading(page);
@@ -29,10 +32,28 @@ App.populator('page-pet-list', function(page){
 	functionToCallAfterDBCalls = function () {
 		var ul = $(page).find('#userPetsList');
 		for (var i = 0; i < userPetList.length; i++) {
-			var li = document.createElement('li');
-			var petTypeName = determinePetTypeName(userPetList[i].pettype);
-			li.innerHTML = 'Name: ' + userPetList[i].petname + '; Type: ' + petTypeName;
-			ul.append(li);
+			// var li = document.createElement('li');
+			// var petTypeName = determinePetTypeName(userPetList[i].pettype);
+			// li.innerHTML = 'Name: ' + userPetList[i].petname + '; Type: ' + petTypeName;
+			// ul.append(li);
+			var listItem = petListItem.clone();
+			var petName = 	userPetList[i].petname;
+			var petType =  determinePetTypeName(userPetList[i].pettype);
+			var petPreview;
+
+			switch (petType) {
+				case 'Blob':
+					petPreview = 'url(../img/icon_pet_list_blob.png)';
+					break;
+			}
+
+
+			listItem.find('.list-pet-preview').css('background-image', petPreview);
+			listItem.find('.list-pet-name').text(petName);
+			listItem.find('.list-pet-type').text(petType);
+			listItem.show();
+
+			ul.append(listItem);
 		}
 		removeLoading(page);
 	}

@@ -177,34 +177,20 @@ function signOut () {
 }
 
 function displaySignOutBox () {
-    var blocker = document.createElement('div');
-    var signOutButton = document.createElement('div');
-    var cancelButton = document.createElement('div');
-
-    signOutButton.className = 'app-button';
-    cancelButton.className = 'app-button';
-
-    signOutButton.id = 'signOut';
-    signOutButton.innerHTML = 'signOut';
-
-    cancelButton.id = 'cancel';
-    cancelButton.innerHTML = 'cancel';
-
-    blocker.id = 'blocker';
-
-    blocker.appendChild(cancelButton);
-    blocker.appendChild(signOutButton);
-
-    cancelButton.onclick = function () {
-        $(blocker).remove();
-    }
-
-    signOutButton.onclick = function () {
-        signOut();
-        App.load('page-login');
-    }
-
-    $('.app-content').append(blocker);
+   App.dialog({
+        title   : 'Logout?',
+        successButton   : 'Yes' ,
+        cancelButton    : 'No' ,
+        }, function (choice) {
+        if (choice === 'success') {
+            signOut();
+            App.load('page-login');
+            App.removeFromStack();
+        }
+        else {
+            return;
+        }
+    });
 }
 
 function displaySignedInUser (page) {

@@ -19,11 +19,15 @@ App.populator('page-login', function(page){
 							if (success) {
 								if (result.length > 0) App.load('page-pet-list');
 								else App.load('page-pet-creation');
+
+								App.removeFromStack(-1);
 							} else {
 								displayErrorToastNoFatal(result);
 								removeLoading(page);
 							}
 						});
+
+
 					} else {
 						displayErrorToastNoFatal(result);
 						removeLoading(page);
