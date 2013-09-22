@@ -50,6 +50,22 @@ App.populator('page-pet-list', function(page){
 			listItem.find('.list-pet-preview').css('background-image', petPreview);
 			listItem.find('.list-pet-name').text(petName);
 			listItem.find('.list-pet-type').text(petTypeName);
+
+			onLongPress(listItem,  function() {
+				App.dialog({
+					title   : 'Delete Pet?',
+					successButton   : 'Yes' ,
+					cancelButton    : 'No' ,
+					}, function (choice) {
+					if (choice === 'success') {
+					// TODO : Delete function
+					}
+					else {
+						return;
+					}
+				});
+            });
+
 			listItem.show();
 			
 			listItem.data("userPetListIndex", i);

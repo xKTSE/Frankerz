@@ -234,3 +234,17 @@ function determinePetTypeName(pettype) {
 
     displayErrorToast('Unknown pet type: ' + pettype );
 }
+
+function onLongPress (element, event) {
+    // To simulate longpressing an item
+    var pressTimer;
+    element.mouseup(function(){
+    clearTimeout(pressTimer);
+    // Clear timeout
+    return false;
+    }).mousedown(function(){
+    // Set timeout
+    pressTimer = window.setTimeout(event, 500);
+    return false; 
+    });
+}
