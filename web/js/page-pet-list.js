@@ -55,7 +55,6 @@ App.populator('page-pet-list', function(page){
 			
 			listItem.data("userPetListIndex", i);
 			listItem.on('click', function () {
-				console.log("CLICKEd");
 			    var index = $(this).data("userPetListIndex");
 
 			    var petRow = userPetList[index];

@@ -4,6 +4,10 @@
 	background-color: #E4E4E4;
 }
 
+.pet-list-item:hover {
+	background-color: #eee;
+}
+
 .pet-list-item .list-pet-preview {
 	position: absolute;
 	left: 1;
