@@ -1,5 +1,18 @@
 App.populator('page-game', function(page){
 	var p = $(page);
+	var saveButton = $(page).find('.app-button.left')
+							.on('click', function() {
+								setCallbackCheck(1);
+								displayLoading(page);
+								functionToCallAfterDBCalls = function () {
+									printPet(globalPet);
+									var name = globalPet.petName;
+									displayNotificationToast(name + ' has been saved!');
+									removeLoading(page);			
+								}
+								globalPet.DB_save();
+								frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+							});
 	var canvasSection = p.find('#canvas-section');
 	var actionBarItem = p.find('.actions');
 	var optionButton = p.find('#options');
