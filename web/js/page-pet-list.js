@@ -38,10 +38,10 @@ App.populator('page-pet-list', function(page){
 			// ul.append(li);
 			var listItem = petListItem.clone();
 			var petName = 	userPetList[i].petname;
-			var petType =  determinePetTypeName(userPetList[i].pettype);
+			var petTypeName =  determinePetTypeName(userPetList[i].pettype);
 			var petPreview;
 
-			switch (petType) {
+			switch (petTypeName) {
 				case 'Blob':
 					petPreview = 'url(../img/icon_pet_list_blob.png)';
 					break;
