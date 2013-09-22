@@ -4,6 +4,12 @@ App.populator('page-pet-creation', function(page){
 
 	globalPage = page;
 
+	var backButton = $(page).find('.app-button.left')
+						.on('click', function() {
+							globalPet = null;
+							App.load('page-pet-list');
+						});
+
 	if (petTypeArray.length == 0 ){
 
 		setCallbackCheck(1);
@@ -65,6 +71,7 @@ function displayPetType () {
 				displayLoading();
 
 				functionToCallAfterDBCalls = function () {
+					globalPage = null;
 					App.load('page-game');
 				}
 
