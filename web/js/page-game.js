@@ -12,7 +12,7 @@ App.populator('page-game', function(page){
 
 	p.on('appShow', function () {
     	
-    	console.log(canvasSection.height());
+    	//console.log(canvasSection.height());
 
 
     	var CONST = {

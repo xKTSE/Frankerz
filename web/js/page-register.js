@@ -1,6 +1,6 @@
 App.populator('page-register', function(page){
 	
-	console.log('app skeleton');
+	//console.log('app skeleton');
 
 	$(page).find('#frankerz_registerButton')
 		.on('click', function() {

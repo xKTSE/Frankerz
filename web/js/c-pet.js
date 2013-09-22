@@ -33,7 +33,7 @@ Crafty.c("Pet", {
 		}
 	},
 	onEvent: function(event) {
-		console.log(event);
+		//console.log(event);
 		switch (event) {
 			case 'FEED' :
 				if (!this.pet.petState.isAsleep()) {
