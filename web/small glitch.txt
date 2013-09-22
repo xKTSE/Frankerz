@@ -1,0 +1,34 @@
+var backButton = $(page).find('.app-button.left')
+						.on('click', function() {
+							setCallbackCheck(1);
+							displayLoading(page);
+							functionToCallAfterDBCalls = function () {
+								var name = globalPet.petName;
+								globalPet = null;
+								App.load('page-pet-list');
+								displayNotificationToast(name + ' has been saved!');				
+							}
+							globalPet.DB_save();
+							frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+						});
+
+/*
+	When the backButton is pressed (series of events that follow):
+
+		1. callBackCount is set to 1
+		2. functionToCallAfterDBCalls is set
+		3. save pet is called
+		4. interval is initiated to listen for when the database function call ends
+
+		5. in the waitForCallbackComplete
+
+			1. interval is cleared
+			2. callBackCount and callBackCheck are reset
+			3. functionToCallAfterDBCalls is called
+
+				1. App.load is called
+
+			4. functionToCallAfterDBCalls is reset
+
+			PROBLEM: functionToCallAfterDBCalls is reset after every line of sequential code in App.load is called but BEFORE the database method in App.load completes and calls App.load's implementation of functionToCallAfterDBCalls. As a result, App.load calls an empty function after DB calls are done
+*/

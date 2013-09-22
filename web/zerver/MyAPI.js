@@ -189,6 +189,37 @@ exports.addPet = function (pet, callback) {
 	});
 }
 
+exports.checkPetName = function (petName, ownerId, callback) {
+	var pg = require('pg');
+
+	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			console.error('EXPORTS.CHECKPETNAME::Connecting to the database', err);
+
+			callback(false, 'Error in database');
+		} else {
+			client.query('SELECT * FROM pets WHERE petname = $1 AND ownerid = $2', [petName, ownerId], function(err, result) {
+			    //call 'done()' to release the client back to the pool
+		    	done();
+
+			    if(err) {
+			    	console.error('EXPORTS.CHECKPETNAME::Running Query', err);
+			      	callback(false, 'Error in database');
+			    } else {
+			    	if (result.rows.length == 0) {
+			    		callback(true);
+			    	} else {
+			    		callback(false, 'Pet name for user already exists!');
+			    	}
+			    }
+			});
+		}
+	});	
+}
+
 exports.updatePet = function (pet, callback) {
 	var pg = require('pg');
 

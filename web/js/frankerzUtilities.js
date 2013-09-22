@@ -169,7 +169,6 @@ function waitForCallbackComplete() {
             // reset
             frankerz_callbackCount = 0;
             frankerz_callbackCheck = 0;
-            functionToCallAfterDBCallsArguments = new Array();
 
             functionToCallAfterDBCalls();
             functionToCallAfterDBCalls = function () {};

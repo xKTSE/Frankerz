@@ -64,16 +64,23 @@ function displayPetType () {
 
 				displayLoading();
 
-				functionToCallAfterDBCalls = function () {
-					globalPage = null;
-					App.load('page-game');
-				}
+				MyAPI.checkPetName(petName, mockUserSession.userId, function (success, result) {
+					if (success) {
+						functionToCallAfterDBCalls = function () {
+							globalPage = null;
+							App.load('page-game');
+						}
 
-				setCallbackCheck(2);
+						setCallbackCheck(2);
 
-				frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+						frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
 
-				globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, true);				
+						globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, true);	
+					} else {
+						removeLoading();
+						displayErrorToastNoFatal(result);
+					}
+				}); 			
 			}
 		});		
 
