@@ -1,4 +1,6 @@
-var frankerz_connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+var frankerz_connectionString = 'pg://postgres:root@localhost:5432/frankerz';
+
+// FOR HEROKU! frankerz_connectionString = 'pg://ftpusmlywwotva:StpZPJsNnYdt70baq87KT6c4c7@ec2-75-101-167-151.compute-1.amazonaws.com:5432/d8hl6768plv4fa'
 
 exports.checkUsername = function (username, password, callback) {
 	var pg = require('pg');
