@@ -73,6 +73,7 @@ function printPet(pet) {
 function DB_addPet(pet) {
     MyAPI.addPet(pet, function (success, result) {
         if (success) {
+            frankerz_callbackCount++;
 			pet.petId = result;
         } else {
             displayErrorToast(result);
@@ -83,9 +84,10 @@ function DB_addPet(pet) {
 function DB_updatePet(pet) {
     MyAPI.updatePet(pet, function (success, result) {
         if (success) {
+            frankerz_callbackCount++;
             console.log('success!');
         } else {
-            console.log(errorStr);
+            displayErrorToast(result);
         }
    });	
 }

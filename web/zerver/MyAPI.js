@@ -204,7 +204,7 @@ exports.updatePet = function (pet, callback) {
 			callback(false, 'Error in database');
 		} else {
 			client.query('UPDATE pets SET (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) = ($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) WHERE id = $1', 
-				[pet.petId, pet.petName, pet.petType, pet.petGender, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
+				[pet.petId, pet.petName, pet.petGender, pet.petType, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
 			    //call 'done()' to release the client back to the pool
 		    	done();
 

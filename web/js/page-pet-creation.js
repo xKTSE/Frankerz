@@ -4,6 +4,12 @@ App.populator('page-pet-creation', function(page){
 
 	globalPage = page;
 
+	var backButton = $(page).find('.app-button.left')
+						.on('click', function() {
+							globalPet = null;
+							App.load('page-pet-list');
+						});
+
 	if (petTypeArray.length == 0 ){
 
 		setCallbackCheck(1);
@@ -58,22 +64,23 @@ function displayPetType () {
 				displayErrorToastNoFatal('Please enter a pet name');
 			} else if (!male && !female) {
 				displayErrorToastNoFatal('Please choose a gender');
+			} else {
+				if (male) petGender = genderEnum.MALE;
+				else petGender = genderEnum.FEMALE;
+
+				displayLoading();
+
+				functionToCallAfterDBCalls = function () {
+					globalPage = null;
+					App.load('page-game');
+				}
+
+				setCallbackCheck(2);
+
+				frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+
+				globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, true);				
 			}
-
-			if (male) petGender = genderEnum.MALE;
-			else petGender = genderEnum.FEMALE;
-
-			displayLoading();
-
-			functionToCallAfterDBCalls = function () {
-				App.load('page-game');
-			}
-
-			setCallbackCheck(1);
-
-			frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
-
-			globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId);
 		});		
 
 	removeLoading();

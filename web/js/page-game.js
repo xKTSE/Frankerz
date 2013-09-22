@@ -1,5 +1,10 @@
 App.populator('page-game', function(page){
 	var p = $(page);
+	var backButton = $(page).find('.app-button.left')
+							.on('click', function() {
+								globalPet = null;
+								App.load('page-pet-list');
+							});
 	var canvasSection = p.find('#canvas-section');
 	var actionBarItem = p.find('.actions');
 	var optionButton = p.find('#options');
@@ -9,12 +14,6 @@ App.populator('page-game', function(page){
 	p.on('appShow', function () {
     	
     	console.log(canvasSection.height());
-    	// To remove upon getting User Pet Data implementation
-    	var dummy = {
-    		name: 'Dongers',
-    		type: 'blob',
-    		gender: 'male'
-    	}
 
 
     	var CONST = {

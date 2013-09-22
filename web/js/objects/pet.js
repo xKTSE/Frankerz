@@ -16,7 +16,7 @@ var lifeCycleEnum = {
 	ADULT : 3
 }
 
-function Pet (petId, petName, petType, petGender, userId, petState) {
+function Pet (petId, petName, petType, petGender, userId, petState, save) {
 	
 	this.petConfig = null;
 	this.petId = petId;
@@ -26,6 +26,7 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 	this.petGender = petGender;
 	this.petState = petState;
 	this.userId = userId;
+	this.save = save;
 
 	if (!this.validateArguments()) {
 		displayErrorToast('Validation for the arguments of the Pet object failed');
@@ -47,7 +48,9 @@ function Pet (petId, petName, petType, petGender, userId, petState) {
 		HAPPY_MAX: 10
 	};
 
-	this.DB_save();
+	if (save) {
+		this.DB_save();
+	}
 }
 
 Pet.prototype.validateArguments = function () {
@@ -64,7 +67,8 @@ Pet.prototype.validateArguments = function () {
 	if (typeof this.petName == 'string'
 		&& typeof this.petType == 'number'
 		&& typeof this.petGender == 'number'
-		&& typeof this.userId == 'number') {
+		&& typeof this.userId == 'number'
+		&& typeof this.save == 'boolean') {
 
 		if (areArgumentsIntegers(this.petType, this.petGender, this.userId)) {
 			if (this.petGender == genderEnum.MALE || this.petGender == genderEnum.FEMALE) {
