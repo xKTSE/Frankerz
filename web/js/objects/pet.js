@@ -35,15 +35,15 @@ function Pet (petId, petName, petType, petGender, userId, petState, petConfig) {
 		this.petState = new PetState();
 	}
 
-	// Counters to indicate when to decrement/increment petState values
-	this.petStateCounters = {
-		HUNGER: 0,
-		HUNGER_MAX: 10, // CHANGE THIS TO A LARGER NUMBER LATER
-		ENERGY: 0,
-		ENERGY_MAX: 10,
-		HAPPY: 0,
-		HAPPY_MAX: 10
-	};
+	// // Counters to indicate when to decrement/increment petState values
+	// this.petStateCounters = {
+	// 	HUNGER: 0,
+	// 	HUNGER_MAX: 120, // CHANGE THIS TO A LARGER NUMBER LATER
+	// 	ENERGY: 0,
+	// 	ENERGY_MAX: 120,
+	// 	HAPPY: 0,
+	// 	HAPPY_MAX: 120
+	// };
 }
 
 Pet.prototype.validateArguments = function () {
@@ -124,55 +124,30 @@ Pet.prototype.eat = function (food) {
 }
 
 Pet.prototype.calculateHappiness = function () {
-	this.petStateCounters.HAPPY++;
+	this.petState.entertainment.entertainmentValue -= this.petConfig.entertainmentRate;
 
-	/*	The state counter should increase until a threshold.
-		Upon reaching the threshold, the state value should decr/incr accordingly
-		The counter should then reset
-	*/
-	if (this.petStateCounters.HAPPY >= this.petStateCounters.HAPPY_MAX) {
-		this.petState.entertainment.entertainmentValue -= this.petConfig.entertainmentRate;
-
-		if (this.petState.entertainment.entertainmentValue < 0) {
-			this.petState.entertainment.entertainmentValue = 0;
-		}
-
-
-		this.petStateCounters.HAPPY = 0;
+	if (this.petState.entertainment.entertainmentValue < 0) {
+		this.petState.entertainment.entertainmentValue = 0;
 	}
 
 	return this.petState.entertainment.entertainmentValue;
 }
 
 Pet.prototype.calculateHunger = function () {
-	
-	this.petStateCounters.HUNGER++;
+	this.petState.hunger.hungerValue += this.petConfig.hungerRate;
 
-	if (this.petStateCounters.HUNGER >= this.petStateCounters.HUNGER_MAX) {
-		this.petState.hunger.hungerValue += this.petConfig.hungerRate;
-
-		if (this.petState.hunger.hungerValue > 100) {
-			this.petState.hunger.hungerValue = 100;
-		}
-
-		this.petStateCounters.HUNGER = 0;
+	if (this.petState.hunger.hungerValue > 100) {
+		this.petState.hunger.hungerValue = 100;
 	}
 
 	return this.petState.hunger.hungerValue;
 }
 
 Pet.prototype.calculateEnergy = function () {
+	this.petState.energy.energyValue -= this.petConfig.energyRate;
 
-	this.petStateCounters.ENERGY ++;
-
-	if (this.petStateCounters.ENERGY >= this.petStateCounters.ENERGY_MAX) {
-		this.petState.energy.energyValue -= this.petConfig.energyRate;
-
-		if (this.petState.energy.energyValue < 0) {
-			this.petState.energy.energyValue = 0;
-		}
-
-		this.petStateCounters.ENERGY = 0;
+	if (this.petState.energy.energyValue < 0) {
+		this.petState.energy.energyValue = 0;
 	}
 
 	return this.petState.energy.energyValue;

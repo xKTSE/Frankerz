@@ -7,6 +7,8 @@ App.populator('page-game', function(page){
 	var GAME_IN_PROFRESS = false;
 	var saveInterval = null;
 	var SAVE_INTERVAL_TIME = 20000;
+	var petStateCalculateInterval = null;
+	var STATE_CALCULATE_INTERVAL = 3000;
 
 	p.on('appShow', function () {
     	
@@ -44,9 +46,19 @@ App.populator('page-game', function(page){
 				pet.setData(globalPet);
 
 				console.log(pet);
-				pet.bind('EnterFrame', function(){
-					pet.calculatePetState();
-				});
+				// pet.bind('EnterFrame', function(){
+				// 	pet.calculatePetState();
+				// });
+
+				saveInterval = setInterval(function() {globalPet.DB_updatePet(function(success, result) {
+			        if (success) {
+						console.log(result);
+			        } else {
+			            displayErrorToast(result);
+			        }
+				})}, SAVE_INTERVAL_TIME);
+
+				petStateCalculateInterval = setInterval(function() {pet.calculatePetState()}, STATE_CALCULATE_INTERVAL);
 
 				pet.onMouseDown = function(e) {
 					var context = this;
@@ -91,6 +103,7 @@ App.populator('page-game', function(page){
 				return;
 			} else {
 				clearInterval(saveInterval);
+				clearInterval(petStateCalculateInterval);
 				App.dialog({
 					title   : 'Options',
 					saveButton   : 'Save' ,
@@ -140,6 +153,7 @@ App.populator('page-game', function(page){
 						            displayErrorToast(result);
 						        }
 							}), SAVE_INTERVAL_TIME);
+							petStateCalculateInterval = setInterval(function() {pet.calculatePetState()}, STATE_CALCULATE_INTERVAL);
 							return;
 						}
 					});
@@ -154,13 +168,5 @@ App.populator('page-game', function(page){
 		*/
 
 		Game.start();
-
-		saveInterval = setInterval(function() {globalPet.DB_updatePet(function(success, result) {
-	        if (success) {
-				console.log(result);
-	        } else {
-	            displayErrorToast(result);
-	        }
-		})}, SAVE_INTERVAL_TIME);
   	});
 });
