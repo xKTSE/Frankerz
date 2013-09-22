@@ -166,12 +166,13 @@ function waitForCallbackComplete() {
     } else {
         if (frankerz_callbackCount == frankerz_callbackCheck) {
             clearInterval(frankerz_callbackInterval);
-            functionToCallAfterDBCalls();
             // reset
             frankerz_callbackCount = 0;
             frankerz_callbackCheck = 0;
-            functionToCallAfterDBCalls = function () {};
             functionToCallAfterDBCallsArguments = new Array();
+
+            functionToCallAfterDBCalls();
+            functionToCallAfterDBCalls = function () {};
         }
     }
 }

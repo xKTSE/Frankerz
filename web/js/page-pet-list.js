@@ -7,15 +7,6 @@ App.populator('page-pet-list', function(page){
 
 	displayLoading(page);
 
-    MyAPI.getPetListOfUser(mockUserSession.userId, function (success, result) {
-        if (success) {
-        	userPetList = result;
-        	frankerz_callbackCount++;
-        } else {
-        	displayErrorToast(result);
-        }
-    });
-
 	if (petTypeArray.length == 0 ){
 
 		setCallbackCheck(2);
@@ -28,6 +19,14 @@ App.populator('page-pet-list', function(page){
 
 	}
 
+    MyAPI.getPetListOfUser(mockUserSession.userId, function (success, result) {
+        if (success) {
+        	userPetList = result;
+        	frankerz_callbackCount++;
+        } else {
+        	displayErrorToast(result);
+        }
+    });
 
 	functionToCallAfterDBCalls = function () {
 		var ul = $(page).find('#userPetList');
@@ -62,7 +61,7 @@ App.populator('page-pet-list', function(page){
 			    displayLoading();
 
 			    functionToCallAfterDBCalls = function () {
-			     App.load('page-game');
+			    	App.load('page-game');
 			    }
 
 			    setCallbackCheck(1);
@@ -73,7 +72,6 @@ App.populator('page-pet-list', function(page){
 
 			    globalPet = new Pet(petRow.id, petRow.petname, petRow.pettype, petRow.petgender, mockUserSession.userId, petState, false);
 			});
-
 
 			ul.append(listItem);
 		}
