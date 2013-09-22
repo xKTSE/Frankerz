@@ -16,9 +16,9 @@ var lifeCycleEnum = {
 	ADULT : 3
 }
 
-function Pet (petId, petName, petType, petGender, userId, petState, save) {
+function Pet (petId, petName, petType, petGender, userId, petState, petConfig) {
 	
-	this.petConfig = null;
+	this.petConfig = petConfig;
 	this.petId = petId;
 	this.petName = petName;
 	this.petType = petType;
@@ -26,7 +26,6 @@ function Pet (petId, petName, petType, petGender, userId, petState, save) {
 	this.petGender = petGender;
 	this.petState = petState;
 	this.userId = userId;
-	this.save = save;
 
 	if (!this.validateArguments()) {
 		displayErrorToast('Validation for the arguments of the Pet object failed');
@@ -35,8 +34,6 @@ function Pet (petId, petName, petType, petGender, userId, petState, save) {
 	if (this.petId == null) {
 		this.petState = new PetState();
 	}
-
-	this.DB_initPetConfig();
 
 	// Counters to indicate when to decrement/increment petState values
 	this.petStateCounters = {
@@ -47,10 +44,6 @@ function Pet (petId, petName, petType, petGender, userId, petState, save) {
 		HAPPY: 0,
 		HAPPY_MAX: 10
 	};
-
-	if (save) {
-		this.DB_save();
-	}
 }
 
 Pet.prototype.validateArguments = function () {
@@ -68,7 +61,7 @@ Pet.prototype.validateArguments = function () {
 		&& typeof this.petType == 'number'
 		&& typeof this.petGender == 'number'
 		&& typeof this.userId == 'number'
-		&& typeof this.save == 'boolean') {
+		&& this.petConfig instanceof PetConfig) {
 
 		if (areArgumentsIntegers(this.petType, this.petGender, this.userId)) {
 			if (this.petGender == genderEnum.MALE || this.petGender == genderEnum.FEMALE) {
@@ -185,23 +178,22 @@ Pet.prototype.calculateEnergy = function () {
 	return this.petState.energy.energyValue;
 }
 
-Pet.prototype.DB_save = function () {
-	if (this.petId == null) {
-		DB_addPet(this);
+Pet.prototype.DB_addPet = function (callback) {
+	if (this.petId != null) {
+		displayErrorToastNoFatal('Cannot add pet');
+		return;
 	} else {
-		DB_updatePet(this);
+		MyAPI.addPet(this, callback);
 	}
 }
 
-Pet.prototype.DB_initPetConfig = function () {
-	MyAPI.getPetConfig(this.petType, this.petState.lifeCycle.lifeCycleValue, function (success, result){
-        if (success) {
-        	frankerz_callbackCount++;
-            globalPet.petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
-        } else {
-        	displayErrorToast('Failed to load pet data');
-        }
-    });
+Pet.prototype.DB_updatePet = function (callback) {
+	if (this.petId == null) {
+		displayErrorToastNoFatal('Cannot update pet');
+		return;
+	} else {
+		MyAPI.updatePet(this, callback);
+	}
 }
 
 Pet.prototype.DB_initFoodObjects = function () {

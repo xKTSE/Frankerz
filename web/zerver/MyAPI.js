@@ -1,9 +1,9 @@
+var frankerz_connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
+
 exports.checkUsername = function (username, password, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.CHECKUSERNAME::Connecting to the database', err);
@@ -33,9 +33,7 @@ exports.checkUsername = function (username, password, callback) {
 exports.register = function (username, password, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.REGISTER::Connecting to the database', err);
@@ -61,9 +59,7 @@ exports.register = function (username, password, callback) {
 exports.login = function (username, password, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.LOGIN::Connecting to the database', err);
@@ -128,9 +124,7 @@ exports.login = function (username, password, callback) {
 exports.getPetListOfUser = function (ownerId, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.GETPETLISTOFUSER::Connecting to the database', err);
@@ -161,19 +155,19 @@ exports.getPetListOfUser = function (ownerId, callback) {
 exports.addPet = function (pet, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
 	var petState = pet.petState;
 
-	pg.connect(connectionString, function(err, client, done) {
+	var lastSaved = new Date().getTime();
+
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.ADDPET::Connecting to the database', err);
 
 			callback(false, 'Error in database');
 		} else {
-			client.query('INSERT INTO pets (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id', 
-				[pet.petName, pet.petGender, pet.petType, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
+			client.query('INSERT INTO pets (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid, petlastsaved) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id', 
+				[pet.petName, pet.petGender, pet.petType, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId, lastSaved], function(err, result) {
 			    //call 'done()' to release the client back to the pool
 		    	done();
 
@@ -192,9 +186,7 @@ exports.addPet = function (pet, callback) {
 exports.checkPetName = function (petName, ownerId, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.CHECKPETNAME::Connecting to the database', err);
@@ -223,19 +215,19 @@ exports.checkPetName = function (petName, ownerId, callback) {
 exports.updatePet = function (pet, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
 	var petState = pet.petState;
 
-	pg.connect(connectionString, function(err, client, done) {
+	var lastSaved = new Date().getTime();
+
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.UPDATEPET::Connecting to the database', err);
 
 			callback(false, 'Error in database');
 		} else {
-			client.query('UPDATE pets SET (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid) = ($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) WHERE id = $1', 
-				[pet.petId, pet.petName, pet.petGender, pet.petType, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId], function(err, result) {
+			client.query('UPDATE pets SET (petname, petgender, pettype, petlifecycletime, petlifecyclevalue, pethungertime, pethungervalue, petentertainmenttime, petentertainmentvalue, petenergytime, petenergyvalue, ownerid, petlastsaved) = ($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) WHERE id = $1', 
+				[pet.petId, pet.petName, pet.petGender, pet.petType, petState.lifeCycle.lastEvolved, petState.lifeCycle.lifeCycleValue, petState.hunger.lastAte, petState.hunger.hungerValue, petState.entertainment.lastPlayed, petState.entertainment.entertainmentValue, petState.energy.lastSlept, petState.energy.energyValue, pet.userId, lastSaved], function(err, result) {
 			    //call 'done()' to release the client back to the pool
 		    	done();
 
@@ -244,7 +236,7 @@ exports.updatePet = function (pet, callback) {
 
 			      	callback(false, 'Error in database');
 			    } else {
-			    	callback(true, 'Successfully updated pet in database')
+			    	callback(true, lastSaved)
 			    }
 			});
 		}
@@ -254,9 +246,7 @@ exports.updatePet = function (pet, callback) {
 exports.deletePet = function (petId, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.DELETEPET::Connecting to the database', err);
@@ -282,9 +272,7 @@ exports.deletePet = function (petId, callback) {
 exports.getPetTypes = function (callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.GETPETTYPES::Connecting to the database', err);
@@ -310,9 +298,7 @@ exports.getPetTypes = function (callback) {
 exports.getPetConfig = function (petType, lifeCycleValue, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.GETPETCONFIG::Connecting to the database', err);
@@ -338,9 +324,7 @@ exports.getPetConfig = function (petType, lifeCycleValue, callback) {
 exports.getFoodObjects = function (petType, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.GETFOODOJBECTS::Connecting to the database', err);
@@ -366,9 +350,7 @@ exports.getFoodObjects = function (petType, callback) {
 exports.getActivityObjects = function (petType, callback) {
 	var pg = require('pg');
 
-	var connectionString = process.env.DATABASE_URL || 'pg://postgres:root@localhost:5432/frankerz';
-
-	pg.connect(connectionString, function(err, client, done) {
+	pg.connect(frankerz_connectionString, function(err, client, done) {
 
 		if (err) {
 			console.error('EXPORTS.GETACTIVITYOBJECTS::Connecting to the database', err);

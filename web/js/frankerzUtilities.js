@@ -182,6 +182,8 @@ function setMockUserSession (user) {
 
 function signOut () {
     mockUserSession = null;
+    App.load('page-login');
+    App.removeFromStack();
 }
 
 function displaySignOutBox () {
@@ -190,15 +192,13 @@ function displaySignOutBox () {
         successButton   : 'Yes' ,
         cancelButton    : 'No' ,
         }, function (choice) {
-        if (choice === 'success') {
-            signOut();
-            App.load('page-login');
-            App.removeFromStack();
-        }
-        else {
-            return;
-        }
-    });
+            if (choice === 'success') {
+                signOut();
+            }
+            else {
+                return;
+            }
+        });
 }
 
 function displaySignedInUser (page) {

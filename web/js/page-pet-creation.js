@@ -66,16 +66,25 @@ function displayPetType () {
 
 				MyAPI.checkPetName(petName, mockUserSession.userId, function (success, result) {
 					if (success) {
-						functionToCallAfterDBCalls = function () {
-							globalPage = null;
-							App.load('page-game');
-						}
+						MyAPI.getPetConfig(selectedPetType, 0, function (success, result){
+					        if (success) {
+					            var petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
 
-						setCallbackCheck(2);
+								globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, petConfig);
 
-						frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
-
-						globalPet = new Pet(null, petName, selectedPetType, petGender, mockUserSession.userId, null, true);	
+								globalPet.DB_addPet(function(success, result) {
+							        if (success) {
+							        	globalPet.petId = result;
+										globalPage = null;
+										App.load('page-game');
+							        } else {
+							            displayErrorToast(result);
+							        }
+								});						            
+					        } else {
+					        	displayErrorToast('Failed to load pet data');
+					        }
+					    });
 					} else {
 						removeLoading();
 						displayErrorToastNoFatal(result);

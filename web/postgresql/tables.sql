@@ -17,7 +17,8 @@ CREATE TABLE pets (
 	petEntertainmentTime bigint not null,
 	petEntertainmentValue smallint not null,
 	petEnergyTime bigint not null,
-	petEnergyValue smallint not null
+	petEnergyValue smallint not null,
+	petLastSaved bigint not null
 );
 
 CREATE TABLE petConfigs (

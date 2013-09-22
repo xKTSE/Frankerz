@@ -1,23 +1,12 @@
 App.populator('page-game', function(page){
 	var p = $(page);
-	var saveButton = $(page).find('.app-button.left')
-							.on('click', function() {
-								setCallbackCheck(1);
-								displayLoading(page);
-								functionToCallAfterDBCalls = function () {
-									printPet(globalPet);
-									var name = globalPet.petName;
-									displayNotificationToast(name + ' has been saved!');
-									removeLoading(page);			
-								}
-								globalPet.DB_save();
-								frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
-							});
 	var canvasSection = p.find('#canvas-section');
 	var actionBarItem = p.find('.actions');
 	var optionButton = p.find('#options');
 	var pet;
 	var GAME_IN_PROFRESS = false;
+	var saveInterval = null;
+	var SAVE_INTERVAL_TIME = 20000;
 
 	p.on('appShow', function () {
     	
@@ -100,8 +89,61 @@ App.populator('page-game', function(page){
 		optionButton.on('click', function(){
 			if (!GAME_IN_PROFRESS) {
 				return;
+			} else {
+				clearInterval(saveInterval);
+				App.dialog({
+					title   : 'Options',
+					saveButton   : 'Save' ,
+					backButton    : 'Back to Pet List' ,
+					signOutButton : 'Sign Out' ,
+					cancelButton : 'Cancel'
+					}, function (choice) {
+						if (choice === 'save') {
+							displayLoading(page);
+							globalPet.DB_updatePet(function(success, result) {
+						        if (success) {
+									console.log(result);
+									removeLoading();
+						        } else {
+						            displayErrorToast(result);
+						        }
+							});	
+						}
+						else if (choice === 'back'){
+							displayLoading();
+							globalPet.DB_updatePet(function(success, result) {
+						        if (success) {
+									console.log(result);
+									globalPet = null;
+									App.load('page-pet-list');
+									App.removeFromStack();
+						        } else {
+						            displayErrorToast(result);
+						        }
+							});
+						} else if (choice === 'signOut'){
+							displayLoading();
+							globalPet.DB_updatePet(function(success, result) {
+						        if (success) {
+									console.log(result);
+									globalPet = null;
+									signOut();
+						        } else {
+						            displayErrorToast(result);
+						        }
+							});
+						} else {
+							saveInterval = setInterval(globalPet.DB_updatePet(function(success, result) {
+						        if (success) {
+									console.log(result);
+						        } else {
+						            displayErrorToast(result);
+						        }
+							}), SAVE_INTERVAL_TIME);
+							return;
+						}
+					});
 			}
-			// TODO:
 		});
 
 		/*
@@ -112,5 +154,13 @@ App.populator('page-game', function(page){
 		*/
 
 		Game.start();
+
+		saveInterval = setInterval(function() {globalPet.DB_updatePet(function(success, result) {
+	        if (success) {
+				console.log(result);
+	        } else {
+	            displayErrorToast(result);
+	        }
+		})}, SAVE_INTERVAL_TIME);
   	});
 });
