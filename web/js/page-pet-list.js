@@ -60,17 +60,21 @@ App.populator('page-pet-list', function(page){
 
 			    displayLoading();
 
-			    functionToCallAfterDBCalls = function () {
-			    	App.load('page-game');
-			    }
+			    MyAPI.getPetConfig(petRow.pettype, petRow.petlifecyclevalue, function (success, result){
+			    	if (success) {
 
-			    setCallbackCheck(1);
+			    		var petConfig = new PetConfig(result.lifecyclerate, result.hungerrate, result.entertainmentrate, result.energyrate);
 
-			    frankerz_callbackInterval = setInterval(waitForCallbackComplete, 100);
+			    		var petState = new PetState(new LifeCycle(petRow.petlifecyclevalue, parseInt(petRow.petlifecycletime)), new Hunger(petRow.pethungervalue, parseInt(petRow.pethungertime)), new Entertainment(petRow.petentertainmentvalue, parseInt(petRow.petentertainmenttime)), new Energy(petRow.petenergyvalue, parseInt(petRow.petenergytime)));
 
-			    var petState = new PetState(new LifeCycle(petRow.petlifecyclevalue, parseInt(petRow.petlifecycletime)), new Hunger(petRow.pethungervalue, parseInt(petRow.pethungertime)), new Entertainment(petRow.petentertainmentvalue, parseInt(petRow.petentertainmenttime)), new Energy(petRow.petenergyvalue, parseInt(petRow.petenergytime)));
+			    		globalPet = new Pet(petRow.id, petRow.petname, petRow.pettype, petRow.petgender, mockUserSession.userId, petState, petConfig);
 
-			    globalPet = new Pet(petRow.id, petRow.petname, petRow.pettype, petRow.petgender, mockUserSession.userId, petState, false);
+			    		App.load('page-game');
+
+			    	} else {
+			    		displayErrorToast('Failed to load pet data');
+			    	}
+			    });
 			});
 
 			ul.append(listItem);
