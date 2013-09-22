@@ -4,12 +4,6 @@ App.populator('page-pet-creation', function(page){
 
 	globalPage = page;
 
-	var backButton = $(page).find('.app-button.left')
-						.on('click', function() {
-							globalPet = null;
-							App.load('page-pet-list');
-						});
-
 	if (petTypeArray.length == 0 ){
 
 		setCallbackCheck(1);
