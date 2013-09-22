@@ -18,7 +18,7 @@ App.populator('page-login', function(page){
 							if (success) {
 								if (result.length > 0) {
 									App.load('page-pet-list');
-									App.removeFromStack(-1);
+									App.removeFromStack();
 								}
 								else {
 									App.load('page-pet-creation');
