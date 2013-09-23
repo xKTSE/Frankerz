@@ -152,6 +152,9 @@
           <script src="js/c-pet.js"></script>
           <script src="js/c-dialog.js"></script>
           <script>
+          if (cards.browser) {
+               cards.browser.setOrientationLock('portrait');
+          }
                App.load('page-login');
           </script>
 </body>
