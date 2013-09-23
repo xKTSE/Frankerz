@@ -16,7 +16,7 @@ App.populator('page-register', function(page){
 						MyAPI.register(username, password, function (){
 							if (success) {
 								new Toast({
-									text: 'Succesfully registered, please login.',
+									text: 'Successfully registered, please login.',
 									duration: 3000
 								})
 								App.load('page-login');
